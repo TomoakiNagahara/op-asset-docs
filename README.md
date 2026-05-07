@@ -11,3 +11,7 @@ They should be treated as useful working documents, but also as documents that m
 Japanese translations of framework-level documents are stored next to the English file and use the suffix:
 
 - `.ja.md`
+
+Useful entry points include:
+
+- `important-gaps.md`

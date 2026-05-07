@@ -113,6 +113,14 @@ A push to GitHub is allowed when one of the following is true:
 - the branch name matches a year-like pattern such as `2025`, `2026`, `2030`, `2031`
 - the branch name is explicitly allowed in CD configuration
 
+In practical terms, if a developer wants to allow an additional branch name, one standard way is:
+
+1. copy `asset/unit/cd/config.php`
+2. create `asset/config/cd.php`
+3. add the branch name to the allowed `branch` list
+
+After that, the branch can be pushed under the current CD rule set.
+
 If the push target is not GitHub, this GitHub-specific branch restriction is not applied.
 
 The intent is that a non-GitHub remote is treated as a private repository area.
@@ -171,6 +179,10 @@ The repository `.gitignore` contains these broad patterns:
 - `.*`
 - `_*`
 
+Historically, this ignore behavior came first.
+
+It existed before the config override convention based on underscore-prefixed files.
+
 This is also part of the operational technique of the ONEPIECE Framework.
 
 The intent is to make dot-prefixed files and underscore-prefixed files local by default, so they do not get included in normal `git add .` workflows.
@@ -181,11 +193,17 @@ This helps reduce accidental publication of local-only files to:
 - shared repositories
 - public GitHub repositories
 
+As a practical operating rule, if a developer has a file or directory that should stay local and should not normally be stored in the repository, giving it an underscore-prefixed name is a good default choice.
+
+This helps reduce the tragedy of accidentally committing, pushing, and publishing something to the world that was never meant to leave the local environment.
+
 Typical examples include local override files such as:
 
 - `_admin.php`
 - `_database.php`
 - `_php.php`
+
+Those config override files should be understood as a later feature that was designed to ride on top of the pre-existing underscore-ignore behavior.
 
 These files may still be forced into Git with `git add -f`, so this is a guardrail rather than an absolute protection mechanism.
 

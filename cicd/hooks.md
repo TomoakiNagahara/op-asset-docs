@@ -6,11 +6,15 @@ One of the major characteristics of the ONEPIECE Framework is that CI/CD is inte
 
 The Git hooks are not treated as optional decoration. They are part of the operating model of the framework.
 
+At the same time, this does not mean that CI/CD is a mandatory or exclusive framework requirement.
+
+Developers and end users may choose to use this integrated workflow, but they are not forced to use only this implementation.
+
 ## Related Framework Documents
 
-- `invariants.md`
-- `responsibility-boundaries.md`
-- `common-recipes.md`
+- `../op/invariants.md`
+- `../op/responsibility-boundaries.md`
+- `../op/common-recipes.md`
 
 The main purpose is simple:
 
@@ -142,3 +146,27 @@ The intention is to keep the following contract:
 - unsafe or unchecked code should stop before it reaches `origin`
 
 This is why the ONEPIECE Framework treats hooks as part of the framework workflow rather than as optional personal tooling.
+
+## Optionality and Replaceability
+
+The integrated CI/CD workflow is a standard framework operating model, not a mandatory universal lock-in.
+
+That means:
+
+- developers may use the built-in CI/CD workflow
+- end users may use it if it fits their operation
+- third-party CI/CD systems may also be used
+- independently developed CI/CD systems may also be used
+
+In other words, `op-unit-ci` is the standard integrated choice, but not the only permissible choice.
+
+## [DOC-FUTURE] Ideal Responsibility Layout
+
+The ideal long-term layout is to keep CI-related responsibilities concentrated in `op-unit-ci` and CD-related responsibilities concentrated in `op-unit-cd`.
+
+In that ideal model:
+
+- CI-related checks and orchestration belong to `op-unit-ci`
+- CD-related publication and push policy belong to `op-unit-cd`
+
+The current implementation still contains historically scattered parts, but the intended To-Be direction is clearer concentration by responsibility.
