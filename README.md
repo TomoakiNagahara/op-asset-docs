@@ -15,3 +15,26 @@ Japanese translations of framework-level documents are stored next to the Englis
 Useful entry points include:
 
 - `important-gaps.md`
+- `to-be.md`
+
+## About As-Is and To-Be
+
+As-Is and To-Be should not be mixed carelessly in one place.
+
+The practical guideline is:
+
+- local technical documents should primarily describe As-Is
+- local documents may still keep short `[DOC-FUTURE]` notes when necessary
+- broader future direction should also be collected in `to-be.md`
+
+The reason is that As-Is and To-Be answer different questions:
+
+- As-Is: what the framework does now
+- To-Be: what the framework should become later
+
+Keeping a separate To-Be document makes it easier for both humans and AI to tell:
+
+- what is already true
+- what is only planned
+- what is a current bug or gap
+- what is a future design direction
