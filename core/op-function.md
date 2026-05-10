@@ -25,6 +25,8 @@ The purpose of `OP()` is to make framework usage simple and uniform.
 
 With `OP()`, developers can call framework features without having to think about class namespaces every time.
 
+At the implementation level, this unified access is backed by a singleton instance of `\OP\OP`.
+
 This makes it easier to:
 
 - use core features from anywhere
@@ -35,5 +37,7 @@ This makes it easier to:
 ## Design Meaning
 
 In practical terms, `OP()` acts as a unified gateway to the framework.
+
+More concretely, the global `OP()` function returns the reusable singleton instance of `\OP\OP`.
 
 That is why it is such an important part of the developer experience in the ONEPIECE Framework.

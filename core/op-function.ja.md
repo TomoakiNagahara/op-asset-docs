@@ -25,6 +25,8 @@
 
 `OP()` を使うことで、開発者は class namespace を毎回意識せずに framework 機能を呼び出せるようになります。
 
+実装レベルでは、この統一 access は `\OP\OP` の singleton instance によって支えられています。
+
 これにより、次の効果があります。
 
 - どこからでも core 機能を使いやすい
@@ -35,5 +37,7 @@
 ## 設計上の意味
 
 実務上の意味として、`OP()` は framework の統一 gateway として機能します。
+
+より具体的には、global function `OP()` は、再利用される `\OP\OP` の singleton instance を返します。
 
 そのため、ONEPIECE Framework における開発体験の中核的な仕組みのひとつになっています。
