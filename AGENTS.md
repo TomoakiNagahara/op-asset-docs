@@ -1,41 +1,44 @@
 # AGENTS.md
 
-This file provides instructions for AI coding agents working on this repository.
+This file is the main working guide for AI coding agents editing this repository.
+
+Document roles: boundary details belong in `CUSTOMIZATION_MAP.md`; `AGENTS.md` is the main entry point and general working guide for AI agents; `CODEX.md` is intentionally limited to Codex CLI-specific instructions.
 
 ## Project
 
-This repository is part of the ONEPIECE Framework.
+This repository is the application skeleton for the ONEPIECE Framework.
 
 ONEPIECE Framework is an Apache-2.0 licensed OSS project.
 
-## Core Principle
+- `README.md` explains what the project is and how to start it.
+- `AGENTS.md` is the main guide for AI coding agents.
+- `CUSTOMIZATION_MAP.md` is the source of truth for safe customization points versus framework-managed core zones.
+- `CODEX.md` contains Codex CLI-specific workflow notes only; general AI-agent policy belongs in `AGENTS.md`.
+- Prefer repository-specific working rules over general framework descriptions.
 
-Do not modify framework core files unless explicitly requested.
+## Customization Boundaries
 
-Application-specific customization should be done under the `asset/` directory.
+Before deciding where to edit, read `CUSTOMIZATION_MAP.md`.
 
-## Important Paths
+Do not duplicate customization boundaries, safe change patterns, or framework-core ownership rules in this file. Keep those details in `CUSTOMIZATION_MAP.md` so agents have one authoritative boundary map.
 
-- `app.php`
-  - Application entry point.
-  - Do not modify unless explicitly requested.
+Use `CUSTOMIZATION_MAP.md` for:
 
-- `asset/bootstrap/index.php`
-  - Framework bootstrap.
-  - Do not modify unless explicitly requested.
+- CORE versus application-owned customization decisions.
+- Safe locations for config, routing, templates, layouts, units, and modules.
+- Whether app-specific behavior should become a dedicated UNIT or MODULE.
+- Whether a framework bug should become a pull request to the responsible package.
+- High-impact file guidance for `app.php`, `.htaccess`, bootstrap, init, and submodule config.
 
-- `asset/config/`
-  - Configuration files.
-  - Safe customization area.
+## Runtime Flow
 
-- `asset/docs/`
-  - Project documentation.
+Keep this request flow in mind:
 
-- `index.php`
-  - Directory-level controller.
-
-- `*.phtml`
-  - Template/view files.
+1. Apache rewrite or direct entry sends the request to `app.php`.
+2. `app.php` sets `APP_ROOT` and loads `asset/bootstrap/index.php` if it exists.
+3. Bootstrap loads core and config files, then supporting bootstrap includes.
+4. `OP()->Unit()->App()->Auto()` continues the application lifecycle.
+5. Templates are eventually chosen and rendered through framework routing and template APIs.
 
 ## ONEPIECE Framework Rules
 
@@ -44,6 +47,8 @@ Application-specific customization should be done under the `asset/` directory.
 - Layout rendering may still be applied to `.html` files.
 - Directory-level `index.php` files work as controllers.
 - Use `.phtml` for templates.
+- Keep routing decisions and template rendering concerns separated.
+- Preserve the fallback startup logic in `index.php`.
 
 ## Coding Rules
 
@@ -54,6 +59,30 @@ Application-specific customization should be done under the `asset/` directory.
 - Use `OP()->Request()` where appropriate.
 - Do not use `var_dump()` or `print_r()` for debugging.
 - Use `D()` for framework-aware debug output.
+
+## Documentation Rules
+
+- README.md is for humans.
+- AGENTS.md is for AI coding agents.
+- CUSTOMIZATION_MAP.md describes safe customization points and framework ownership boundaries.
+- CODEX.md is only for Codex CLI-specific workflow notes.
+- English documents remain the canonical working documents for AI consumption.
+- Japanese translations are required because the user reviews document correctness in Japanese and uses the translation to validate whether the English document is accurate.
+- When adding a Japanese translation, place it beside the English file and use the `.ja.md` suffix.
+- Do not use `asset/docs/ja/`, any `docs/ja/` directory under `asset/core`, `asset/unit`, or `asset/module`, or `asset/docs/spec/` as the default location for new translations.
+- Use `asset/docs/httpd/` for web-server-related documents.
+- Use `asset/docs/cicd/` for framework-level CI/CD philosophy, history, background, and operating-model documents.
+- Use `asset/docs/unit/` for philosophy, history, and background of the Unit system itself.
+- Use `asset/docs/module/` for philosophy, history, and background of the Module system itself.
+- Use `asset/docs/new-world/` for NEW WORLD philosophy, background, and historical documents.
+- Use `asset/docs/core/` for op-core philosophy, background, and high-level core feature documents.
+- Use `asset/docs/op/` for framework-wide philosophy, design intent, and background of the ONEPIECE Framework.
+- Use `asset/docs/skeleton/` for skeleton-specific framework documents.
+- If a framework-level document does not fit any of the categories above, store it directly under `asset/docs/`.
+- Do not put local absolute file links such as `/System/Volumes/...` into repository documents.
+- In repository documents, prefer plain repository-relative paths instead of clickable local-environment file links.
+- When a document describes a current problem, mismatch, risk, limitation, or future fix direction, add a searchable tag such as `[DOC-ISSUE]`, `[DOC-RISK]`, `[DOC-GAP]`, `[DOC-FUTURE]`, or `[DOC-PRIORITY1]`.
+- Use `[DOC-PRIORITY1]` when the specification is already clear but the current implementation is clearly different.
 
 ## Git / CI Rules
 
@@ -68,27 +97,36 @@ Application-specific customization should be done under the `asset/` directory.
   - `Doc:`
   - `Del:`
 
-## Documentation Rules
+## Verification
 
-- README.md is for humans.
-- AGENTS.md is for AI coding agents.
-- CUSTOMIZATION_MAP.md should describe safe customization points.
-- CODEX.md may contain Codex-specific workflow notes.
+After making changes, run checks that match the risk and scope of the change.
 
-## Do Not
+For behavior changes, verify the relevant startup, route, template, layout, and unknown-route behavior described in `CUSTOMIZATION_MAP.md`.
 
-- Do not rewrite the project architecture casually.
-- Do not move files unless requested.
-- Do not edit core files as a shortcut.
-- Do not introduce unnecessary dependencies.
-- Do not change public behavior without explaining the reason.
-- Do not remove existing comments or documentation unless clearly obsolete.
+For docs-only changes, a diff review is usually enough.
 
 ## Preferred Workflow
 
 1. Inspect the existing structure.
-2. Identify the smallest safe change.
-3. Modify files only in the appropriate customization area.
-4. Run checks if available.
-5. Explain what changed and why.
+2. Read `CUSTOMIZATION_MAP.md` before choosing an edit location.
+3. Identify the smallest safe change.
+4. Modify files only in the appropriate customization area.
+5. Run checks if available and relevant.
+6. Explain what changed and why.
 
+## Troubleshooting
+
+When application startup, routing, rendering, layout, or 404 behavior is wrong, use the runtime flow above and the responsibility map in `CUSTOMIZATION_MAP.md` to choose the first files to inspect.
+
+## Glossary
+
+- `pass-through`
+  A design where HTML-oriented files flow through the framework while still allowing PHP execution.
+- `UNIT`
+  A functional unit used to organize framework or application behavior.
+- `Template`
+  The file selected for rendering page content.
+- `Layout`
+  The shared page wrapper and common presentation structure.
+- `Auto()`
+  The application lifecycle step triggered after bootstrap completes.
