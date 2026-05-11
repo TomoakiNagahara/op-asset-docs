@@ -2,6 +2,8 @@
 
 This map separates application-owned customization points from framework-managed core in `op-skeleton-2030`.
 
+Document roles: boundary details belong in `CUSTOMIZATION_MAP.md`; `AGENTS.md` is the main entry point and general working guide for AI agents; `CODEX.md` is intentionally limited to Codex CLI-specific instructions.
+
 Use the left side first. Move right only when the task is truly changing framework behavior, not just site behavior.
 
 If you are not acting as a ONEPIECE Framework CORE developer, do not casually edit CORE areas.
@@ -170,4 +172,4 @@ Before editing a framework-managed area, answer these questions:
 - Is this a framework bug that should be fixed through a pull request?
 - Will the change survive `php asset/init/update.php` without being overwritten or creating submodule drift?
 - Is the target file tracked by this skeleton repo, or by a submodule/package?
-- Does the change need a matching document update in `CODEX.md` or a package-level `docs/` directory?
+- Does the change need a matching document update in `AGENTS.md`, `CUSTOMIZATION_MAP.md`, or a package-level `docs/` directory?

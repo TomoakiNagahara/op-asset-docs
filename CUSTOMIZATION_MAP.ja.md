@@ -2,6 +2,8 @@
 
 この文書は、`op-skeleton-2030` におけるアプリケーション側の安全な編集領域と、framework 管理の CORE 領域を分けるための判断基準です。
 
+文書の役割: 境界判断の詳細は `CUSTOMIZATION_MAP.md` に置きます。`AGENTS.md` は AI agent のメイン導線と一般作業ルールです。`CODEX.md` は Codex CLI 固有の説明だけに限定します。
+
 まずアプリケーション側の編集領域から検討してください。framework の挙動そのものを変える必要がある場合だけ、CORE 側に進みます。
 
 CORE 開発者として作業していない場合、CORE 領域を安易に修正してはいけません。
@@ -79,4 +81,4 @@ framework-managed area を編集する前に、次を確認します。
 - framework bug であり、pull request として修正すべきではないか。
 - `php asset/init/update.php` 後にも変更が維持されるか。submodule drift を作らないか。
 - 対象 file は skeleton repo の tracked file か、submodule/package 側の file か。
-- `CODEX.md` または package-level `docs/` に対応する文書更新が必要か。
+- `AGENTS.md`、`CUSTOMIZATION_MAP.md`、または package-level `docs/` に対応する文書更新が必要か。
