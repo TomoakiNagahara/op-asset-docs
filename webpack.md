@@ -31,6 +31,27 @@ Its main responsibilities are:
 
 `op-unit-webpack` should not automatically decide which layout assets should be used.
 
+### File Registration
+
+Use `OP()->Unit()->WebPack()->Auto()` to register files with WebPack.
+
+`Auto()` accepts targets in the following forms:
+
+- multiple files at once
+- directory paths
+- wildcard paths
+
+### Path Rules
+
+File and directory paths passed to WebPack follow these rules:
+
+- meta paths can be used
+- full paths cannot be specified
+- upper directories cannot be specified
+- current path references can be used
+
+The full path and upper directory restrictions are security measures that prevent unintended access to server-side files.
+
 ## `op-module-webpack`
 
 `op-module-webpack` is the delivery-side module for grouped asset requests.

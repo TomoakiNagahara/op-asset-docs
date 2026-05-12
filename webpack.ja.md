@@ -31,6 +31,27 @@ WebPack に関係する主な package は次です。
 
 `op-unit-webpack` は、どの layout asset を使うべきかという policy を自動的に決めるべきではありません。
 
+### File Registration
+
+WebPack に file を登録するには `OP()->Unit()->WebPack()->Auto()` を使います。
+
+`Auto()` には、次の形式で対象を渡せます。
+
+- 複数 file の一括指定
+- directory 指定
+- wildcard 指定
+
+### Path Rules
+
+WebPack に渡す file/directory の指定には、次の rule があります。
+
+- meta path が使える
+- full path は指定できない
+- upper directory は指定できない
+- current path 指定が使える
+
+full path と upper directory の禁止は、意図しない server-side file への access を防ぐための security measure です。
+
 ## `op-module-webpack`
 
 `op-module-webpack` は、grouped asset request を受ける delivery-side module です。
