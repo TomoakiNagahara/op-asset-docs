@@ -1,43 +1,65 @@
-# WebPack
+# WebPack Module
 
 ## 概要
 
-ONEPIECE Framework の特徴のひとつに、複数の JavaScript file や複数の CSS file を、1 回の request で送信できることがあります。
+この文書は、ONEPIECE Framework における `op-module-webpack` の目的を説明します。
 
-これは次を組み合わせて実現されます。
+WebPack 全体の仕組みを説明する文書ではありません。
 
-- `op-unit-webpack`
-- `webpack` module
+framework-level な WebPack の概要は `../webpack.ja.md` を参照してください。
+
+`op-module-webpack` の current 実装詳細は、`op-module-webpack` package 側の `asset/module/webpack/docs/as-is.ja.md` を参照してください。
 
 ## 関連 framework 文書
 
+- `../webpack.ja.md`
 - `../op/invariants.ja.md`
 - `../op/responsibility-boundaries.ja.md`
 - `../op/common-recipes.ja.md`
 
-## 基本的な考え方
+## 目的
 
-目的は単なる file collection ではありません。
+`op-module-webpack` は、grouped asset request を受ける delivery-side module です。
 
-framework は、次の仕組みを提供します。
+目的は、WebPack request path を受け取り、実際の grouped output 生成を `op-unit-webpack` に委譲することです。
 
-- 複数の `js` file をまとめて送信できる
-- 複数の `css` file をまとめて送信できる
-- response を framework logic によって動的に組み立てられる
+つまり、public な WebPack URL と WebPack unit の間にある request-facing adapter です。
 
-## 役割分担
+## 責務境界
 
-大きく分けると次です。
+`op-module-webpack` が担当すべきこと:
 
-- `op-unit-webpack` は registration、selection、output preparation を担当する
-- `webpack` module は、まとめられた asset を送信する delivery-side module として働く
+- grouped asset の delivery-side request entry
+- request から asset type への routing
+- output work の `op-unit-webpack` への委譲
 
-## これが重要な理由
+`op-module-webpack` が担当すべきではないこと:
 
-これにより、front-end asset の送信を、単なる静的 file 群ではなく framework workflow の一部として扱えます。
+- asset registration state
+- cache / minify / output internals
+- standard JavaScript / CSS asset definitions
+- layout-specific asset policy
 
-その結果、framework は次を協調させられます。
+## 関連 package
 
-- layout に関連する asset grouping
-- 動的な output behavior
-- request 駆動の統一された delivery
+`op-module-webpack` は次と連携しますが、それらとは別の package です。
+
+- `op-unit-webpack`
+- `op-webpack-js`
+- `op-webpack-css`
+
+`op-unit-webpack` は registration state と grouped output behavior を担当します。
+
+`op-webpack-js` と `op-webpack-css` は、framework standard JavaScript / CSS asset を提供します。
+
+## ドキュメント配置
+
+framework-level な WebPack concept は次に置きます。
+
+- `asset/docs/webpack.ja.md`
+
+current の `op-module-webpack` behavior は次に置きます。
+
+- `asset/module/webpack/docs/as-is.ja.md`
+
+この file は、framework documentation tree 側から module の目的と責務境界を説明するためだけに存在します。
