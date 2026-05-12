@@ -42,6 +42,18 @@ framework の不具合を発見した場合は、アプリケーション側に�
 7. application-specific feature なら、CORE や既存 framework UNIT には追加しない。dedicated UNIT または MODULE を作る。
 8. framework bug fix なら、責任を持つ framework package に pull request を出す。
 
+## `asset/webpack/` の扱い
+
+`asset/webpack/js/` と `asset/webpack/css/` は、framework が用意する standard function / standard style の置き場です。
+
+これらの file は、存在するだけでは自動的に pack されません。
+
+application や layout は、必要に応じて参考にしても、使っても、無視しても構いません。
+
+推奨する使い方は、active layout の `js` / `css` directory から必要な file へ symbolic link を貼り、layout 側の asset として明示的に WebPack 登録することです。
+
+詳細は `webpack.ja.md` を参照してください。
+
 ## CORE と既存 UNIT を触らない基準
 
 CORE 開発者でない作業者にとって、`asset/core/` は基本的に read-mostly reference です。

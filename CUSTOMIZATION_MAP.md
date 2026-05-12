@@ -43,6 +43,18 @@ When you find a framework bug, prepare a pull request for the responsible packag
 7. If the change is an application-specific feature, do not add it to CORE or an existing framework UNIT. Create a dedicated UNIT or MODULE.
 8. If the change is a framework bug fix, make it as a pull request against the responsible framework package.
 
+## About `asset/webpack/`
+
+`asset/webpack/js/` and `asset/webpack/css/` contain framework-provided standard functions and standard styles.
+
+These files are not packed automatically just because they exist.
+
+Applications and layouts may reference them, use them, or ignore them.
+
+The recommended usage is to create symbolic links from the active layout's `js` / `css` directory to the required files, then explicitly register them as layout-owned assets through WebPack.
+
+See `webpack.md` for details.
+
 ## Safe Customization Points
 
 ### Application Config
