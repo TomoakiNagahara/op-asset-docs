@@ -104,6 +104,35 @@ Primary references:
 - `asset/docs/cicd/hooks.md`
 - `asset/docs/cicd/hooks.ja.md`
 
+### WebPack module / unit automatically registers layout asset directories
+
+Current status:
+
+- `asset/module/webpack/content/js/index.php` and `asset/module/webpack/content/css/index.php` register `asset:/layout/<layout>/<extension>/` through `WebPack()->Auto()`
+- `op-unit-webpack` also has a path that reads the `layout` request value and registers the layout asset directory
+
+Why it matters:
+
+- `js` / `css` directories under a layout should not be packed automatically
+- In ONEPIECE Framework philosophy, each layout should explicitly register its own assets
+- When the packing unit or an intermediate module automatically registers layout assets, responsibility boundaries become unclear and can cause unintended asset inclusion or debugging difficulty
+
+Intended direction:
+
+- layout-specific WebPack registration should be performed explicitly by each layout in its own initialization or template flow
+- the WebPack unit should focus on registered asset state, output, cache, and minify behavior
+- the WebPack module should focus on the delivery-side request entry and should not own layout asset policy
+
+Primary references:
+
+- `asset/docs/module/webpack.md`
+- `asset/docs/module/webpack.ja.md`
+- `asset/module/webpack/docs/as-is.md`
+- `asset/module/webpack/docs/as-is.ja.md`
+- `asset/module/webpack/content/js/index.php`
+- `asset/module/webpack/content/css/index.php`
+- `asset/unit/webpack/WEBPACK_2024.trait.php`
+
 ## Lower-Priority Planned Adjustments
 
 ### `isAdmin()` localhost auto-admin remains configurable only by code today

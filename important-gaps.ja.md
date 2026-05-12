@@ -104,6 +104,35 @@ current status:
 - `asset/docs/cicd/hooks.md`
 - `asset/docs/cicd/hooks.ja.md`
 
+### WebPack module / unit が layout asset directory を自動登録している
+
+current status:
+
+- `asset/module/webpack/content/js/index.php` と `asset/module/webpack/content/css/index.php` は、`asset:/layout/<layout>/<extension>/` を `WebPack()->Auto()` に登録している
+- `op-unit-webpack` 側にも、request の `layout` を見て layout asset directory を登録する経路がある
+
+なぜ重要か:
+
+- layout にある `js` / `css` directory は、自動的に pack されるべきではない
+- ONEPIECE Framework の思想では、各 layout が自分の asset を主体的に登録するべきである
+- pack する unit や中間 module が layout asset を自動登録すると、責務境界が曖昧になり、意図しない asset inclusion や debugging difficulty の原因になる
+
+あるべき姿:
+
+- layout-specific asset の WebPack 登録は、各 layout が自分の初期化処理や template で明示的に行う
+- WebPack unit は登録済み asset の state / output / cache / minify に集中する
+- WebPack module は delivery-side request entry に集中し、layout asset policy を持たない
+
+主な参照先:
+
+- `asset/docs/module/webpack.md`
+- `asset/docs/module/webpack.ja.md`
+- `asset/module/webpack/docs/as-is.md`
+- `asset/module/webpack/docs/as-is.ja.md`
+- `asset/module/webpack/content/js/index.php`
+- `asset/module/webpack/content/css/index.php`
+- `asset/unit/webpack/WEBPACK_2024.trait.php`
+
 ## 優先度が少し低い将来調整
 
 ### `isAdmin()` の localhost 自動 admin は current では code 側固定
