@@ -36,3 +36,4 @@ user に作業結果を報告するとき:
 - task が明示的に framework development を対象にしていない限り、CORE と既存 framework package は read-mostly として扱う。
 - application-specific request を CORE や既存 framework UNIT package の編集で解決しない。
 - framework bug を見つけた場合、application customization に隠すのではなく、package-level fix または pull request として準備する。
+- document を編集するときは、path から推測される責務範囲と内容を一致させる。framework-wide concept は higher-level framework docs に置き、package-specific current behavior はその package 自身の `docs/` に置く。

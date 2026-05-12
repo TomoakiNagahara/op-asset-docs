@@ -36,3 +36,4 @@ When reporting work back to the user:
 - Treat CORE and existing framework packages as read-mostly unless the task explicitly targets framework development.
 - Do not solve application-specific requests by editing CORE or existing framework UNIT packages.
 - If a framework bug is found, prepare the change as a package-level fix or pull request instead of hiding it in application customization.
+- When editing documents, keep content aligned with the responsibility scope implied by the path; framework-wide concepts belong in higher-level framework docs, and package-specific current behavior belongs in that package's own `docs/`.
