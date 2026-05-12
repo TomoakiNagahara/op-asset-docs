@@ -52,6 +52,11 @@ They are stable contracts that AI and contributors should preserve unless the ta
 - If a framework-level document does not fit any of the categories above, it may remain directly under `asset/docs/`.
 - Japanese translations of framework-level documents should live next to the English file and use the suffix `.ja.md`.
 - As-Is, technical implementation details, unit-internal flows, and encapsulated subsystem behavior belong in each subsystem's own `docs/`.
+- A document's content must match the responsibility scope implied by its path.
+- `asset/docs/module/<name>.md` should explain the purpose, responsibility boundary, and framework-level position of that module-system package.
+- Current behavior, entry points, internal call flow, and implementation details of a specific module belong in that module package's own `docs/`.
+- Do not force a framework-wide concept into a document for one specific unit, module, or package.
+- Concepts that span multiple packages belong in a higher-level framework document, with individual package documents linking to it.
 
 ## CI/CD Integration
 

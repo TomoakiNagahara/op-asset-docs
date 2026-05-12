@@ -52,6 +52,11 @@ task が明示的に contract-level change を要求していない限り、AI �
 - 上記のどれにも当てはまらない framework-level 文書は `asset/docs/` 直下に置いてよい
 - framework-level 文書の日本語訳は、英語版と同じ directory に置き、末尾を `.ja.md` にする
 - As-Is、技術実装、unit 内部フロー、カプセル化された subsystem の挙動は各 subsystem 自身の `docs/` に置く
+- 文書の内容は、path から推測される責務範囲と一致していなければならない
+- `asset/docs/module/<name>.md` は、その module system 上の package の目的、責務境界、framework-level な位置づけを説明する
+- 特定 module の current behavior、entry point、内部 call flow、現行 implementation detail は、その module package 自身の `docs/` に置く
+- framework 全体の概念を、特定 unit/module/package の文書に押し込んではならない
+- 複数 package にまたがる概念は、より上位の framework-level 文書に置き、個別 package 文書から参照する
 
 ## CI/CD 統合
 
