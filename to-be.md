@@ -66,6 +66,35 @@ Primary references:
 - `asset/docs/new-world/html-pass-through.md`
 - `asset/unit/router/docs/calc-route-2018.md`
 
+### Each Layout Should Own WebPack Registration for Its Own Assets
+
+The current implementation has paths in the WebPack module and WebPack unit that automatically register a layout's `js` / `css` directories.
+
+In the ONEPIECE Framework To-Be, each layout owns selection and registration of its own layout-specific assets.
+
+The preferred future direction is:
+
+- `asset/layout/<layout-name>/js/` or `asset/layout/<layout-name>/css/` should not be packed merely because the directory exists
+- each layout should explicitly register the JavaScript / CSS it needs through `OP()->Unit()->WebPack()->Auto()` in its own initialization or template flow
+- the WebPack unit should focus on registered asset state, grouped output, cache, and minify behavior
+- the WebPack module should focus on the delivery-side entry for grouped asset requests
+- the WebPack unit/module should not automatically decide layout-specific asset policy
+
+This keeps layout asset inclusion intentional and makes responsibility boundaries and debugging points clear.
+
+Primary references:
+
+- `asset/docs/important-gaps.md`
+- `asset/docs/important-gaps.ja.md`
+- `asset/docs/op/responsibility-boundaries.md`
+- `asset/docs/op/responsibility-boundaries.ja.md`
+- `asset/docs/webpack.md`
+- `asset/docs/webpack.ja.md`
+- `asset/docs/module/webpack.md`
+- `asset/docs/module/webpack.ja.md`
+- `asset/module/webpack/docs/as-is.md`
+- `asset/module/webpack/docs/as-is.ja.md`
+
 ### `OP()->URL('.')` Should Not Return FQDN by Default
 
 Current behavior returns a full URL with scheme and host.

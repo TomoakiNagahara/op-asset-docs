@@ -66,6 +66,35 @@ current router は pass-through 対象拡張子をハードコードしていま
 - `asset/docs/new-world/html-pass-through.md`
 - `asset/unit/router/docs/calc-route-2018.md`
 
+### Layout asset の WebPack 登録は各 layout が主体的に行うべき
+
+current 実装では、WebPack module や WebPack unit 側に、layout の `js` / `css` directory を自動的に register する経路があります。
+
+ONEPIECE Framework の To-Be では、layout-specific asset の選択と登録は各 layout が主体的に行います。
+
+望ましい将来方針は次です。
+
+- `asset/layout/<layout-name>/js/` や `asset/layout/<layout-name>/css/` が存在するだけでは pack されない
+- 各 layout は、自分が必要とする JavaScript / CSS を自分の初期化処理や template flow で `OP()->Unit()->WebPack()->Auto()` に明示登録する
+- WebPack unit は、登録済み asset の state、grouped output、cache、minify に集中する
+- WebPack module は、grouped asset request の delivery-side entry に集中する
+- WebPack unit/module は、layout-specific asset policy を自動的に決めない
+
+この方針により、layout の意図しない asset inclusion を避け、責務境界と debugging point を明確にします。
+
+主な参照先:
+
+- `asset/docs/important-gaps.md`
+- `asset/docs/important-gaps.ja.md`
+- `asset/docs/op/responsibility-boundaries.md`
+- `asset/docs/op/responsibility-boundaries.ja.md`
+- `asset/docs/webpack.md`
+- `asset/docs/webpack.ja.md`
+- `asset/docs/module/webpack.md`
+- `asset/docs/module/webpack.ja.md`
+- `asset/module/webpack/docs/as-is.md`
+- `asset/module/webpack/docs/as-is.ja.md`
+
 ### `OP()->URL('.')` は default で FQDN を返さない方がよい
 
 current 挙動では scheme と host を含む完全 URL を返します。
