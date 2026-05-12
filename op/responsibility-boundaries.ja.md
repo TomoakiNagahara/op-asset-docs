@@ -37,6 +37,12 @@
 - layout が有効な場合に content 生成後に実行される
 - routing decision は担当しない
 
+## Layout
+
+- 自分自身に必要な layout-specific asset の選択と登録を担当する
+- `asset/layout/<layout-name>/js/` や `asset/layout/<layout-name>/css/` が存在するだけで、自動的に pack されることを前提にしない
+- WebPack unit や WebPack module に、自分の asset policy を暗黙に委譲しない
+
 ## Notice Unit
 
 - 保存済み error を消費する
@@ -73,12 +79,14 @@
 - asset registration state を担当する
 - grouped output の生成を担当する
 - cache / minify / output behavior を担当する
+- layout-specific asset directory の自動発見や自動登録は、本来の責務ではない
 
 ## WebPack Module
 
 - grouped asset の delivery-side request entry を担当する
 - request と layout context を準備する
 - 実際の grouped output は WebPack unit に委譲する
+- layout-specific asset policy を持つべきではない
 
 ## Config System
 

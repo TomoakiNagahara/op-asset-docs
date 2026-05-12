@@ -37,6 +37,12 @@ Its goal is to help AI and contributors decide where a change belongs.
 - runs after content generation when layout is enabled
 - does not own routing decisions
 
+## Layout
+
+- owns selection and registration of its own layout-specific assets
+- should not assume that `asset/layout/<layout-name>/js/` or `asset/layout/<layout-name>/css/` is packed automatically just because the directory exists
+- should not implicitly delegate its asset policy to the WebPack unit or WebPack module
+
 ## Notice Unit
 
 - consumes stored errors
@@ -73,12 +79,14 @@ Its goal is to help AI and contributors decide where a change belongs.
 - owns asset registration state
 - owns grouped output generation
 - owns cache/minify/output behavior
+- should not own automatic discovery or registration of layout-specific asset directories
 
 ## WebPack Module
 
 - owns delivery-side request entry for grouped assets
 - prepares request and layout context
 - delegates actual grouped output work to the WebPack unit
+- should not own layout-specific asset policy
 
 ## Config System
 
