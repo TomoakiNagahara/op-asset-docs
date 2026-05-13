@@ -2,7 +2,9 @@
 
 This file is the main working guide for AI coding agents editing this repository.
 
-Document roles: boundary details belong in `CUSTOMIZATION_MAP.md`; `AGENTS.md` is the main entry point and general working guide for AI agents; `CODEX.md` is intentionally limited to Codex CLI-specific instructions.
+The repository-root `AGENTS.md` is intentionally a symlink to `asset/docs/AGENTS.md`. Keep the maintained document in `asset/docs/` and keep the root symlink as the agent discovery entry point.
+
+Document roles: boundary details belong in `asset/docs/CUSTOMIZATION_MAP.md`; `AGENTS.md` is the main entry point and general working guide for AI agents; `asset/docs/CODEX.md` is intentionally limited to Codex CLI-specific instructions.
 
 ## Project
 
@@ -11,18 +13,18 @@ This repository is the application skeleton for the ONEPIECE Framework.
 ONEPIECE Framework is an Apache-2.0 licensed OSS project.
 
 - `README.md` explains what the project is and how to start it.
-- `AGENTS.md` is the main guide for AI coding agents.
-- `CUSTOMIZATION_MAP.md` is the source of truth for safe customization points versus framework-managed core zones.
-- `CODEX.md` contains Codex CLI-specific workflow notes only; general AI-agent policy belongs in `AGENTS.md`.
+- `AGENTS.md` is the root symlink entry point for AI coding agents; maintain its content in `asset/docs/AGENTS.md`.
+- `asset/docs/CUSTOMIZATION_MAP.md` is the source of truth for safe customization points versus framework-managed core zones.
+- `asset/docs/CODEX.md` contains Codex CLI-specific workflow notes only; general AI-agent policy belongs in `AGENTS.md`.
 - Prefer repository-specific working rules over general framework descriptions.
 
 ## Customization Boundaries
 
-Before deciding where to edit, read `CUSTOMIZATION_MAP.md`.
+Before deciding where to edit, read `asset/docs/CUSTOMIZATION_MAP.md`.
 
-Do not duplicate customization boundaries, safe change patterns, or framework-core ownership rules in this file. Keep those details in `CUSTOMIZATION_MAP.md` so agents have one authoritative boundary map.
+Do not duplicate customization boundaries, safe change patterns, or framework-core ownership rules in this file. Keep those details in `asset/docs/CUSTOMIZATION_MAP.md` so agents have one authoritative boundary map.
 
-Use `CUSTOMIZATION_MAP.md` for:
+Use `asset/docs/CUSTOMIZATION_MAP.md` for:
 
 - CORE versus application-owned customization decisions.
 - Safe locations for config, routing, templates, layouts, units, and modules.
@@ -63,9 +65,9 @@ Keep this request flow in mind:
 ## Documentation Rules
 
 - README.md is for humans.
-- AGENTS.md is for AI coding agents.
-- CUSTOMIZATION_MAP.md describes safe customization points and framework ownership boundaries.
-- CODEX.md is only for Codex CLI-specific workflow notes.
+- AGENTS.md is for AI coding agents and is exposed at the repository root through a symlink to `asset/docs/AGENTS.md`.
+- CUSTOMIZATION_MAP.md describes safe customization points and framework ownership boundaries; maintain it as `asset/docs/CUSTOMIZATION_MAP.md`.
+- CODEX.md is only for Codex CLI-specific workflow notes; maintain it as `asset/docs/CODEX.md`.
 - English documents remain the canonical working documents for AI consumption.
 - Japanese translations are required because the user reviews document correctness in Japanese and uses the translation to validate whether the English document is accurate.
 - When adding a Japanese translation, place it beside the English file and use the `.ja.md` suffix.
@@ -101,14 +103,14 @@ Keep this request flow in mind:
 
 After making changes, run checks that match the risk and scope of the change.
 
-For behavior changes, verify the relevant startup, route, template, layout, and unknown-route behavior described in `CUSTOMIZATION_MAP.md`.
+For behavior changes, verify the relevant startup, route, template, layout, and unknown-route behavior described in `asset/docs/CUSTOMIZATION_MAP.md`.
 
 For docs-only changes, a diff review is usually enough.
 
 ## Preferred Workflow
 
 1. Inspect the existing structure.
-2. Read `CUSTOMIZATION_MAP.md` before choosing an edit location.
+2. Read `asset/docs/CUSTOMIZATION_MAP.md` before choosing an edit location.
 3. Identify the smallest safe change.
 4. Modify files only in the appropriate customization area.
 5. Run checks if available and relevant.
@@ -116,7 +118,7 @@ For docs-only changes, a diff review is usually enough.
 
 ## Troubleshooting
 
-When application startup, routing, rendering, layout, or 404 behavior is wrong, use the runtime flow above and the responsibility map in `CUSTOMIZATION_MAP.md` to choose the first files to inspect.
+When application startup, routing, rendering, layout, or 404 behavior is wrong, use the runtime flow above and the responsibility map in `asset/docs/CUSTOMIZATION_MAP.md` to choose the first files to inspect.
 
 ## Glossary
 

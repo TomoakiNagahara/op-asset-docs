@@ -2,7 +2,9 @@
 
 このファイルは、この repository を編集する AI coding agent のためのメイン作業ガイドです。
 
-文書の役割: 境界判断の詳細は `CUSTOMIZATION_MAP.md` に置きます。`AGENTS.md` は AI agent のメイン導線と一般作業ルールです。`CODEX.md` は Codex CLI 固有の説明だけに限定します。
+repository root の `AGENTS.md` は、意図的に `asset/docs/AGENTS.md` への symlink です。管理する実体は `asset/docs/` に置き、root の symlink は agent discovery 用の entry point として維持します。
+
+文書の役割: 境界判断の詳細は `asset/docs/CUSTOMIZATION_MAP.md` に置きます。`AGENTS.md` は AI agent のメイン導線と一般作業ルールです。`asset/docs/CODEX.md` は Codex CLI 固有の説明だけに限定します。
 
 ## Project
 
@@ -11,18 +13,18 @@
 ONEPIECE Framework は Apache-2.0 license の OSS project です。
 
 - `README.md` は、この project の概要と開始方法を説明します。
-- `AGENTS.md` は AI coding agent のメインガイドです。
-- `CUSTOMIZATION_MAP.md` は、安全な customization point と framework-managed core zone の source of truth です。
-- `CODEX.md` は Codex CLI-specific workflow note だけを含みます。一般的な AI-agent policy は `AGENTS.md` に置きます。
+- `AGENTS.md` は AI coding agent のための root symlink entry point です。内容は `asset/docs/AGENTS.md` で管理します。
+- `asset/docs/CUSTOMIZATION_MAP.md` は、安全な customization point と framework-managed core zone の source of truth です。
+- `asset/docs/CODEX.md` は Codex CLI-specific workflow note だけを含みます。一般的な AI-agent policy は `AGENTS.md` に置きます。
 - 一般的な framework 説明よりも、この repository 固有の作業ルールを優先します。
 
 ## Customization Boundaries
 
-編集場所を決める前に `CUSTOMIZATION_MAP.md` を読んでください。
+編集場所を決める前に `asset/docs/CUSTOMIZATION_MAP.md` を読んでください。
 
-customization boundary、safe change pattern、framework-core ownership rule をこのファイルに重複して書かないでください。agent が参照する authoritative boundary map を 1 つに保つため、それらの詳細は `CUSTOMIZATION_MAP.md` に置きます。
+customization boundary、safe change pattern、framework-core ownership rule をこのファイルに重複して書かないでください。agent が参照する authoritative boundary map を 1 つに保つため、それらの詳細は `asset/docs/CUSTOMIZATION_MAP.md` に置きます。
 
-`CUSTOMIZATION_MAP.md` は次の判断に使います。
+`asset/docs/CUSTOMIZATION_MAP.md` は次の判断に使います。
 
 - CORE と application-owned customization の判断。
 - config、routing、template、layout、unit、module の安全な配置場所。
@@ -63,9 +65,9 @@ request flow は次のように考えてください。
 ## Documentation Rules
 
 - README.md は human 向け。
-- AGENTS.md は AI coding agent 向け。
-- CUSTOMIZATION_MAP.md は safe customization point と framework ownership boundary を説明する。
-- CODEX.md は Codex CLI-specific workflow note だけを含む。
+- AGENTS.md は AI coding agent 向けで、repository root では `asset/docs/AGENTS.md` への symlink として公開する。
+- CUSTOMIZATION_MAP.md は safe customization point と framework ownership boundary を説明する。実体は `asset/docs/CUSTOMIZATION_MAP.md` として管理する。
+- CODEX.md は Codex CLI-specific workflow note だけを含む。実体は `asset/docs/CODEX.md` として管理する。
 - English document は AI consumption の canonical working document とする。
 - user が日本語で document correctness を確認し、translation を使って English document が正確か検証するため、日本語訳も必要です。
 - 日本語訳を追加する場合は、English file の隣に置き、`.ja.md` suffix を使う。
@@ -101,14 +103,14 @@ request flow は次のように考えてください。
 
 変更後、変更の risk と scope に合う check を実行してください。
 
-behavior change では、`CUSTOMIZATION_MAP.md` にある startup、route、template、layout、unknown-route behavior のうち関連するものを確認します。
+behavior change では、`asset/docs/CUSTOMIZATION_MAP.md` にある startup、route、template、layout、unknown-route behavior のうち関連するものを確認します。
 
 docs-only change では、通常 diff review で十分です。
 
 ## Preferred Workflow
 
 1. 既存 structure を確認する。
-2. 編集場所を決める前に `CUSTOMIZATION_MAP.md` を読む。
+2. 編集場所を決める前に `asset/docs/CUSTOMIZATION_MAP.md` を読む。
 3. 最小で安全な変更を特定する。
 4. 適切な customization area の file だけを変更する。
 5. 利用可能かつ関連する check を実行する。
@@ -116,7 +118,7 @@ docs-only change では、通常 diff review で十分です。
 
 ## Troubleshooting
 
-application startup、routing、rendering、layout、404 behavior が間違っている場合は、上記の runtime flow と `CUSTOMIZATION_MAP.md` の responsibility map を使って、最初に確認する file を選びます。
+application startup、routing、rendering、layout、404 behavior が間違っている場合は、上記の runtime flow と `asset/docs/CUSTOMIZATION_MAP.md` の responsibility map を使って、最初に確認する file を選びます。
 
 ## Glossary
 
