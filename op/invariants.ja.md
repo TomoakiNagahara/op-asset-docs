@@ -77,6 +77,15 @@ task が明示的に contract-level change を要求していない限り、AI �
 - `OP()->Unit()->App()` 形式の typed access は mapper 対応 unit に限られる
 - interface ベースの contract と mapping ベースの差し替えは framework design の一部である
 
+## namespace contract
+
+- ONEPIECE Framework の namespace rule は file path から決まるものではない
+- framework の functions と classes は、global function の `OP()` と `D()` を除き、すべて `OP` namespace の下に置く
+- Core 機能は `OP` 直下の namespace を使う
+- Unit classes は `OP\UNIT` の下に置く
+- Module classes は `OP\MODULE` の下に置く
+- directory structure だけから namespace placement を推測してはいけない
+
 ## config override
 
 - shared configuration は `name.php` に置く

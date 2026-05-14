@@ -77,6 +77,15 @@ They are stable contracts that AI and contributors should preserve unless the ta
 - `OP()->Unit()->App()`-style typed access exists only for mapper-supported units.
 - Interface-based contracts and mapping-based replacement are part of the framework design.
 
+## Namespace Contract
+
+- ONEPIECE Framework namespace rules are not derived from file paths.
+- Framework functions and classes live under the `OP` namespace, except for the global `OP()` and `D()` functions.
+- Core features use the direct `OP` namespace.
+- Unit classes live under `OP\UNIT`.
+- Module classes live under `OP\MODULE`.
+- Do not infer namespace placement from the directory structure alone.
+
 ## Configuration Override
 
 - Shared configuration should live in `name.php`.
