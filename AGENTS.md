@@ -72,6 +72,11 @@ Keep this request flow in mind:
 - Japanese translations are required because the user reviews document correctness in Japanese and uses the translation to validate whether the English document is accurate.
 - When adding a Japanese translation, place it beside the English file and use the `.ja.md` suffix.
 - Do not use `asset/docs/ja/`, any `docs/ja/` directory under `asset/core`, `asset/unit`, or `asset/module`, or `asset/docs/spec/` as the default location for new translations.
+- OP separates features into individual files such as classes, traits, and functions, and Git commits are usually made per file rather than per multi-file feature bundle.
+- This file-by-file commit style works because OP is highly loosely coupled; keep documentation aligned with that model.
+- When documentation depends on one separated file, create a document named for that file instead of merging those details into a shared document.
+- Keep separated-file documentation split by file name because file-level commits greatly reduce rebase and cherry-pick conflicts.
+- When adding, changing, or deleting a feature file, the related CI test and same-named documentation are the other files most likely to be committed with it; matching documentation file names to class or function file names keeps that commit unit clear.
 - Use `asset/docs/httpd/` for web-server-related documents.
 - Use `asset/docs/cicd/` for framework-level CI/CD philosophy, history, background, and operating-model documents.
 - Use `asset/docs/unit/` for philosophy, history, and background of the Unit system itself.

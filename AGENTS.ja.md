@@ -72,6 +72,11 @@ request flow は次のように考えてください。
 - user が日本語で document correctness を確認し、translation を使って English document が正確か検証するため、日本語訳も必要です。
 - 日本語訳を追加する場合は、English file の隣に置き、`.ja.md` suffix を使う。
 - 新しい translation の default location として `asset/docs/ja/`、`asset/core`、`asset/unit`、`asset/module` 配下の `docs/ja/`、または `asset/docs/spec/` を使わない。
+- OP では class、trait、function などの feature が個別 file に分離されており、Git commit も通常は multi-file feature bundle 単位ではなく file 単位で行う。
+- この file-by-file commit style は、OP が非常に loosely coupled であるため成立している。documentation もこの model に合わせる。
+- 分離された 1 file に依存する documentation は、その file name の document を作成し、詳細を shared document にまとめない。
+- file-level commit は rebase や cherry-pick の conflict を大きく減らすため、分離 file の documentation は file name ごとに分けて管理する。
+- feature file を追加、変更、削除する場合、その feature file と同時に commit されやすい別 file は related CI test と same-named documentation である。documentation file name を class file や function file と対応させることで、commit unit を明確に保つ。
 - web-server-related document には `asset/docs/httpd/` を使う。
 - framework-level CI/CD philosophy、history、background、operating-model document には `asset/docs/cicd/` を使う。
 - Unit system 自体の philosophy、history、background には `asset/docs/unit/` を使う。
