@@ -21,21 +21,21 @@ Current status:
   2. `asset/layout/<layout-name>/template/`
   3. `asset/template/`
   4. unit template directory
-- The current implementation order is:
-  1. current directory
-  2. unit template directory
-  3. `asset/layout/<layout-name>/template/`
-  4. `asset/template/`
+- The current `OP()->Template()` As-Is is owned by the `OP_TEMPLATE` trait documentation.
+- See `asset/core/trait/docs/op-template.md` for the current As-Is lookup order and current-directory behavior.
 
 Why it matters:
 
 - This changes which template wins when the same file name exists in multiple places.
 - The intended framework operating pattern for shared site templates depends on the specified order.
+- `OP()->Template()` current-directory behavior is implementation-dependent, so documents outside the trait docs should refer to the trait As-Is instead of duplicating it.
 
 Primary references:
 
 - `asset/docs/skeleton/template-directory.md`
 - `asset/docs/skeleton/template-directory.ja.md`
+- `asset/core/trait/docs/op-template.md`
+- `asset/core/trait/docs/op-template.ja.md`
 - `asset/core/trait/OP_TEMPLATE.php`
 
 ## Important Current Gaps

@@ -21,21 +21,21 @@ current status:
   2. `asset/layout/<layout-name>/template/`
   3. `asset/template/`
   4. unit template directory
-- current 実装順は次です。
-  1. current directory
-  2. unit template directory
-  3. `asset/layout/<layout-name>/template/`
-  4. `asset/template/`
+- current の `OP()->Template()` As-Is は `OP_TEMPLATE` trait の documentation が所有する
+- current As-Is の lookup order と current-directory behavior は `asset/core/trait/docs/op-template.ja.md` を参照する
 
 なぜ重要か:
 
 - 同名 file が複数箇所にあるとき、どの template が勝つかが変わる
 - shared site template の基本運用は、この仕様順を前提にしている
+- `OP()->Template()` の current-directory behavior は implementation-dependent なので、trait docs 以外では重複して書かず、trait As-Is を参照する
 
 主な参照先:
 
 - `asset/docs/skeleton/template-directory.md`
 - `asset/docs/skeleton/template-directory.ja.md`
+- `asset/core/trait/docs/op-template.md`
+- `asset/core/trait/docs/op-template.ja.md`
 - `asset/core/trait/OP_TEMPLATE.php`
 
 ## 重要な current gap
