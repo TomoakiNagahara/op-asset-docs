@@ -77,6 +77,10 @@ Keep this request flow in mind:
 - When documentation depends on one separated file, create a document named for that file instead of merging those details into a shared document.
 - Keep separated-file documentation split by file name because file-level commits greatly reduce rebase and cherry-pick conflicts.
 - When adding, changing, or deleting a feature file, the related CI test and same-named documentation are the other files most likely to be committed with it; matching documentation file names to class or function file names keeps that commit unit clear.
+- When documenting current As-Is behavior, place the authoritative details beside the code owner that determines the behavior, such as the responsible class, trait, function, unit, or module docs.
+- Do not duplicate the same As-Is implementation detail across documents with different responsibility scopes; documents outside the owner should link or refer to the owner document instead.
+- Choose documentation paths from the code owner and responsibility boundary, not only from the page where the topic was first noticed.
+- Keep intended specification, current As-Is behavior, and curated gap indexes separated; gap indexes should point to the As-Is owner rather than becoming the detailed owner themselves.
 - Use `asset/docs/httpd/` for web-server-related documents.
 - Use `asset/docs/cicd/` for framework-level CI/CD philosophy, history, background, and operating-model documents.
 - Use `asset/docs/unit/` for philosophy, history, and background of the Unit system itself.

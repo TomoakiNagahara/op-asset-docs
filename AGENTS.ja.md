@@ -77,6 +77,10 @@ request flow は次のように考えてください。
 - 分離された 1 file に依存する documentation は、その file name の document を作成し、詳細を shared document にまとめない。
 - file-level commit は rebase や cherry-pick の conflict を大きく減らすため、分離 file の documentation は file name ごとに分けて管理する。
 - feature file を追加、変更、削除する場合、その feature file と同時に commit されやすい別 file は related CI test と same-named documentation である。documentation file name を class file や function file と対応させることで、commit unit を明確に保つ。
+- current As-Is behavior を document 化する場合、authoritative detail は、その behavior を決めている code owner の近くに置く。たとえば responsible class、trait、function、unit、module の docs に置く。
+- 同じ As-Is implementation detail を、責務の異なる複数 document に重複して書かない。owner 以外の document は、詳細をコピーせず owner document に link または参照する。
+- documentation path は、最初にその話題が見つかった page ではなく、code owner と responsibility boundary から選ぶ。
+- intended specification、current As-Is behavior、curated gap index は分離して保つ。gap index は詳細な owner にならず、As-Is owner を指す。
 - web-server-related document には `asset/docs/httpd/` を使う。
 - framework-level CI/CD philosophy、history、background、operating-model document には `asset/docs/cicd/` を使う。
 - Unit system 自体の philosophy、history、background には `asset/docs/unit/` を使う。
