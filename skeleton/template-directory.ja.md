@@ -37,7 +37,7 @@ framework の基本運用としては、次のように site-specific な layout
 
 `asset/template/` に置くのではありません。
 
-## [DOC-PRIORITY1] current の読込優先順位
+## 意図された読込優先順位
 
 framework の仕様は次です。
 
@@ -46,16 +46,9 @@ framework の仕様は次です。
 3. `asset/template/`
 4. unit template directory
 
-しかし、current 実装はこの仕様に従っていません。
+[DOC-PRIORITY1] current の `OP()->Template()` As-Is はこの仕様に従っていません。
 
-current 実装では、`OP()->Template()` は template directory を次の順で確認します。
-
-1. current directory
-2. unit template directory
-3. `asset/layout/<layout-name>/template/`
-4. `asset/template/`
-
-これは、意図された順序が既に明確に定義されているため、最優先で解決すべき仕様ギャップです。
+current As-Is は `OP_TEMPLATE` trait の documentation が所有します。`asset/core/trait/docs/op-template.ja.md` を参照してください。
 
 つまり、次に置かれた file は:
 

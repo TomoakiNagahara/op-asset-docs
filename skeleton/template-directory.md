@@ -37,7 +37,7 @@ they should usually be placed in:
 
 rather than in `asset/template/`.
 
-## [DOC-PRIORITY1] Current Lookup Priority
+## Intended Lookup Priority
 
 The framework specification is:
 
@@ -46,16 +46,9 @@ The framework specification is:
 3. `asset/template/`
 4. unit template directory
 
-However, the current implementation does not follow that specification.
+[DOC-PRIORITY1] The current `OP()->Template()` As-Is does not follow that specification.
 
-In current implementation, `OP()->Template()` checks template directories in this order:
-
-1. current directory
-2. unit template directory
-3. `asset/layout/<layout-name>/template/`
-4. `asset/template/`
-
-This is a highest-priority specification gap because the intended order is already clear.
+The current As-Is is owned by the `OP_TEMPLATE` trait documentation. See `asset/core/trait/docs/op-template.md`.
 
 That means a file placed under:
 
