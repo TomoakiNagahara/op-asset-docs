@@ -41,3 +41,50 @@
 より具体的には、global function `OP()` は、再利用される `\OP\OP` の singleton instance を返します。
 
 そのため、ONEPIECE Framework における開発体験の中核的な仕組みのひとつになっています。
+
+## Namespace 解決が不要な入口
+
+ONEPIECE Framework の重要な特徴のひとつは、`OP()` が namespace 内の code からでも意図的に呼びやすくした global function の entry point であることです。
+
+多くの PHP framework では、namespace 内の code から framework symbol を使うために、import、fully-qualified name、service container、facade、dependency injection などで解決する必要があります。
+ONEPIECE Framework の `OP()` は、それとは違う役割を持っています。`OP()` は framework へ到達するための namespace-free gateway です。
+
+これは偶然の convenience ではありません。framework の developer ergonomics の一部です。
+application、unit、module、template、framework code が、毎回 namespace access を解決し直さずに common framework features へ到達できるようにすることが目的です。
+
+application や module の code が namespace の中にあっても、次のようにそのまま呼び出します。
+
+```php
+OP()->Request('key');
+OP()->isAdmin();
+OP()->Template('file.phtml');
+```
+
+namespace 解決、import、class のような fully-qualified call を機械的に追加してはいけません。
+
+次は誤りです。
+
+```php
+\OP\OP();
+use function OP\OP;
+```
+
+`\OP\OP` という名前は、global function の背後で使われる framework class です。
+呼び出す function name ではありません。
+
+実装を見ても、この違いは確認できます。`asset/core/function/OP.php` は namespace 宣言を持たず、`function OP()` を定義しています。
+
+## エージェント向け注意
+
+[DOC-RISK] namespace の修正は機械的に行ってはいけません。
+
+framework API の呼び出しに `\`、`use function`、その他の import を追加する前に、その symbol の実際の宣言と framework contract を確認してください。
+
+`OP()` の contract は次の通りです。
+
+- `OP()` が呼び出す global function である。
+- `\OP\OP` はその function から返される class instance である。
+- `OP\OP()` は有効な function call ではない。
+- `use function OP\OP;` はこの用途では誤りである。
+
+この rule が防ぐ具体的な失敗と AI agent のミス記録は、`asset/docs/agent-mistake/op-function.md` を参照してください。
