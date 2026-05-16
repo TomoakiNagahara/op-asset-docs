@@ -60,6 +60,12 @@ current As-Is は `OP_TEMPLATE` trait の documentation が所有します。`as
 
 このため、site-level customization の shared template は、layout-specific template 側に置くのがより適切です。
 
+## Current directory behavior
+
+`OP()->Template()` の current-directory behavior は `OP_TEMPLATE` trait の implementation に依存します。
+
+current As-Is は `asset/core/trait/docs/op-template.ja.md` を参照してください。
+
 ## 実務上の注意
 
 template を追加・編集する際は、`asset/template/` が純粋な user-owned application content というより、framework-default 寄りの領域であることを意識するべきです。

@@ -60,6 +60,12 @@ is judged before the same-named file under:
 
 This makes layout-specific shared templates the better default location for site-level customization.
 
+## Current Directory Behavior
+
+`OP()->Template()` current-directory behavior depends on the `OP_TEMPLATE` trait implementation.
+
+For the current As-Is, see `asset/core/trait/docs/op-template.md`.
+
 ## Practical Advice
 
 When editing or adding templates, remember that `asset/template/` is closer to framework-default material than to purely user-owned application content.
