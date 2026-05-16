@@ -10,6 +10,7 @@ Its goal is to help AI and contributors decide where a change belongs.
 
 - `for-tomoaki-nagahara.md`
 - `invariants.md`
+- `unit-module-boundary.md`
 - `common-recipes.md`
 
 ## `app.php`

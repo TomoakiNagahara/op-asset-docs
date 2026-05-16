@@ -10,6 +10,7 @@
 
 - `for-tomoaki-nagahara.md`
 - `invariants.md`
+- `unit-module-boundary.md`
 - `common-recipes.md`
 
 ## `app.php`

@@ -12,6 +12,7 @@ task が明示的に contract-level change を要求していない限り、AI �
 
 - `for-tomoaki-nagahara.md`
 - `responsibility-boundaries.md`
+- `unit-module-boundary.md`
 - `common-recipes.md`
 
 ## エントリーポイントと起動

@@ -12,6 +12,7 @@ They are stable contracts that AI and contributors should preserve unless the ta
 
 - `for-tomoaki-nagahara.md`
 - `responsibility-boundaries.md`
+- `unit-module-boundary.md`
 - `common-recipes.md`
 
 ## Entry Point and Startup
