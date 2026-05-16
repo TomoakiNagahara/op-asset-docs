@@ -1,0 +1,62 @@
+> UNITとMODULEの違いについて。まだ、UNITとMODULEの違いについて明確ではないが、UNITは汎用的な機能でシステム寄りで、各UNITやMODULEが横断的に使う機能。MODULEは独立した機能で、他から連携されないイメージ。例えば、アクセスカウンターとか、 お問い合わせフォームなど、
+
+• その整理でかなり自然だと思います。もう少し境界を言語化すると、こう分けるのがよさそうです。
+
+  UNIT
+  UNIT は「他の処理から呼ばれる前提の、汎用的な機能単位」。
+
+  特徴:
+
+  - framework/application の内部処理を支える
+  - 他の UNIT、MODULE、template、layout から横断的に使われる
+  - API/contract が重要
+  - 差し替えや mapping の対象になり得る
+  - 状態管理、変換、検証、ルーティング、出力生成などの「仕組み」を持つ
+
+  例:
+
+  - Router
+  - App
+  - Layout
+  - WebPack
+  - Validate
+  - Form
+  - ORM
+  - Notice
+  - CI/CD
+
+  MODULE
+  MODULE は「特定の目的を持った、独立した機能パッケージ」。
+
+  特徴:
+
+  - 入口や用途が比較的はっきりしている
+  - それ自体でひとつの機能として成立する
+  - 他の機能から横断的に使われるより、ページやリクエストから呼び出されるイメージ
+  - 内部では UNIT を使ってよい
+  - 汎用基盤というより、完成した機能・部品に近い
+
+  例:
+
+  - アクセスカウンター
+  - お問い合わせフォーム
+  - WebPack delivery endpoint
+  - 管理画面の一部機能
+  - sitemap 生成 module
+  - RSS 配信 module
+
+  WebPack の既存整理が良い例です。
+
+  - op-unit-webpack: asset 登録、cache、minify、grouped output 生成という仕組みを持つ
+  - op-module-webpack: public URL/request を受けて WebPack unit に渡す delivery-side module
+
+  つまり、MODULE は「外向きの機能入口」、UNIT は「内側で再利用される機能基盤」と見ると分かりやすいです。
+
+  判断基準としては:
+
+  他の機能から何度も呼ばれる共通能力か？ -> UNIT
+  それ自体が独立した利用目的を持つ機能か？ -> MODULE
+  API と差し替え contract が重要か？ -> UNIT
+  request/page/feature として完結するか？ -> MODULE
+
+  お問い合わせフォームは MODULE 寄り。ただし、その中で使う validation、mail、template、CSRF、session などは UNIT 側の責務になりやすいです。
