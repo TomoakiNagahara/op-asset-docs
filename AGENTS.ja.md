@@ -56,6 +56,8 @@ request flow は次のように考えてください。
 
 - code comment は English で書く。
 - documentation は clear and concise に保つ。
+- config file は短く、ぱっと見で分かる状態に保つ。長い procedural logic、外部 service data、大きな hardcoded list を config file に隠さない。その behavior は責任を持つ function、class、unit、module、または web-server / deployment setting へ移す。
+- CDN、proxy、cloud、vendor の IP range など、外部で管理される変動 data を黙って hardcode しない。公開情報であっても時間とともに変わり、更新負荷と運用リスクを生むため、そのような logic を追加する前に user に確認するか、application code の外で保守される既存の trusted source を使う。
 - raw PHP superglobal より framework API を優先する。
 - 明示的に必要でない限り、raw `$_GET`、`$_POST`、`$_REQUEST`、`$_COOKIE`、`$_SESSION`、`$_SERVER` を使わない。
 - 適切な場合は `OP()->Request()` を使う。
@@ -90,6 +92,7 @@ request flow は次のように考えてください。
 - framework-wide philosophy、design intent、ONEPIECE Framework の background には `asset/docs/op/` を使う。
 - skeleton-specific framework document には `asset/docs/skeleton/` を使う。
 - framework-level document が上記のどれにも当てはまらない場合、`asset/docs/` 直下に置く。
+- public repository document では、実際の site name、hostname、subdomain、layout name、user name、local project name など deployment-specific な固有名詞を抽象化する。その固有名詞自体が document の主題でない限り、`<サイト名>`、`<サブドメイン名>`、`<レイアウト名>`、`<プロジェクト名>` のような placeholder を使う。
 - repository document に `/System/Volumes/...` のような local absolute file link を入れない。
 - repository document では、clickable local-environment file link ではなく、plain repository-relative path を優先する。
 - document が current problem、mismatch、risk、limitation、future fix direction を説明する場合、`[DOC-ISSUE]`、`[DOC-RISK]`、`[DOC-GAP]`、`[DOC-FUTURE]`、`[DOC-PRIORITY1]` などの searchable tag を付ける。

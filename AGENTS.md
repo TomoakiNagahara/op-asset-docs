@@ -56,6 +56,8 @@ Keep this request flow in mind:
 
 - Write code comments in English.
 - Keep documentation clear and concise.
+- Keep configuration files short and immediately readable. Do not hide long procedural logic, external service data, or large hardcoded lists in config files; move that behavior to an owned function, class, unit, module, or web-server/deployment setting.
+- Do not silently hardcode externally maintained data such as CDN, proxy, cloud, or vendor IP ranges. Even if the data is public, it can change over time and creates update burden and operational risk; ask the user before adding such logic, or use an existing trusted source maintained outside application code.
 - Prefer framework APIs over raw PHP superglobals.
 - Do not use raw `$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_SESSION`, or `$_SERVER` unless explicitly necessary.
 - Use `OP()->Request()` where appropriate.
@@ -90,6 +92,7 @@ Keep this request flow in mind:
 - Use `asset/docs/op/` for framework-wide philosophy, design intent, and background of the ONEPIECE Framework.
 - Use `asset/docs/skeleton/` for skeleton-specific framework documents.
 - If a framework-level document does not fit any of the categories above, store it directly under `asset/docs/`.
+- In public repository documents, abstract deployment-specific proper nouns such as real site names, hostnames, subdomains, layout names, user names, and local project names. Use placeholders such as `<site-name>`, `<subdomain>`, `<layout-name>`, or `<project-name>` unless the proper noun is the subject of the document.
 - Do not put local absolute file links such as `/System/Volumes/...` into repository documents.
 - In repository documents, prefer plain repository-relative paths instead of clickable local-environment file links.
 - When a document describes a current problem, mismatch, risk, limitation, or future fix direction, add a searchable tag such as `[DOC-ISSUE]`, `[DOC-RISK]`, `[DOC-GAP]`, `[DOC-FUTURE]`, or `[DOC-PRIORITY1]`.
