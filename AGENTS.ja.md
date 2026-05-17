@@ -55,6 +55,7 @@ request flow は次のように考えてください。
 ## Coding Rules
 
 - code comment は English で書く。
+- comment は、非自明な behavior、intent、assumption、constraint、risk を明確にするために使う。コードを読めば一目瞭然な内容を言い換えるだけの comment は避ける。
 - documentation は clear and concise に保つ。
 - config file は短く、ぱっと見で分かる状態に保つ。長い procedural logic、外部 service data、大きな hardcoded list を config file に隠さない。その behavior は責任を持つ function、class、unit、module、または web-server / deployment setting へ移す。
 - CDN、proxy、cloud、vendor の IP range など、外部で管理される変動 data を黙って hardcode しない。公開情報であっても時間とともに変わり、更新負荷と運用リスクを生むため、そのような logic を追加する前に user に確認するか、application code の外で保守される既存の trusted source を使う。

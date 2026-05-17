@@ -55,6 +55,7 @@ Keep this request flow in mind:
 ## Coding Rules
 
 - Write code comments in English.
+- Use comments to clarify non-obvious behavior, intent, assumptions, constraints, or risks; avoid comments that only restate self-evident code.
 - Keep documentation clear and concise.
 - Keep configuration files short and immediately readable. Do not hide long procedural logic, external service data, or large hardcoded lists in config files; move that behavior to an owned function, class, unit, module, or web-server/deployment setting.
 - Do not silently hardcode externally maintained data such as CDN, proxy, cloud, or vendor IP ranges. Even if the data is public, it can change over time and creates update burden and operational risk; ask the user before adding such logic, or use an existing trusted source maintained outside application code.
