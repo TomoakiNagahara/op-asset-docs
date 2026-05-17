@@ -30,6 +30,8 @@ framework の不具合を発見した場合は、アプリケーション側に�
 | `.htaccess` | Web server routing contract | URL dispatch behavior を変える必要がある場合。 | template や page の変更。 |
 | `asset/init/` | Skeleton initialization tooling | submodule setup、update、local initialization helper。 | runtime application behavior。 |
 | `asset/config/submodule/**` | Skeleton dependency map | initialization が取得する submodule repository/path の設定。 | application runtime feature flag として扱うこと。 |
+| `public/` | Virtual-host container | 複数 virtual host を扱う場合の app-root entry 群。各 child directory が virtual host の app root になり得る。 | virtual-host mapping を確認せず、単一の flat な public web root として扱うこと。 |
+| `public_html/` | Deployment/public document-root package | submodule が存在し、意図して対象にする場合の public web root content。 | rewrite と entry-point flow を確認せずに skeleton runtime behavior を変えること。 |
 
 ## 判断ルール
 
@@ -53,6 +55,20 @@ application や layout は、必要に応じて参考にしても、使っても
 推奨する使い方は、active layout の `js` / `css` directory から必要な file へ symbolic link を貼り、layout 側の asset として明示的に WebPack 登録することです。
 
 詳細は `webpack.ja.md` を参照してください。
+
+## Public Roots
+
+通常の single-site public document root は、その layer を有効にしている場合は多くの場合 `public_html/` です。
+
+一方、application が複数の virtual host を持つ場合、app root にある `public/` directory は virtual-host container として働きます。この mode では、`public/` 配下の entry は単なる static public asset ではありません。`public/` の child directory は、1 つの virtual host の app root として必要な設定や entry file を持つことがあります。
+
+`public/` 配下を編集する前に、対象が次のどれかを確認してください。
+
+- 複数 virtual host を束ねる shared container
+- `public/<host>/` 配下にある 1 つの virtual host の app root
+- 特定 virtual host の中にある通常の public asset directory
+
+詳細は `skeleton/public-vhost-directory.ja.md` を参照してください。
 
 ## CORE と既存 UNIT を触らない基準
 

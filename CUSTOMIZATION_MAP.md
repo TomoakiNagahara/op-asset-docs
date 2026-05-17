@@ -30,6 +30,7 @@ When you find a framework bug, prepare a pull request for the responsible packag
 | `.htaccess` | Web server routing contract | Rewrite changes only when URL dispatch behavior must change. | Template or page changes. |
 | `asset/init/` | Skeleton initialization tooling | Submodule setup, update, and local initialization helper changes. | Runtime application behavior. |
 | `asset/config/submodule/**` | Skeleton dependency map | Configure which submodule repositories/paths initialization should fetch. | Treating these as application runtime feature flags. |
+| `public/` | Virtual-host container | App-root entries for multiple virtual hosts when this skeleton serves more than one public site. Each child can become a virtual host's app root. | Treating it as a single flat public web root without checking the virtual-host mapping. |
 | `public_html/` | Deployment/public document-root package | Public web root content when that submodule is present and intentionally targeted. | Changing skeleton runtime behavior without checking rewrite and entry-point flow. |
 
 ## Decision Rules
@@ -56,6 +57,20 @@ The recommended usage is to create symbolic links from the active layout's `js` 
 See `webpack.md` for details.
 
 ## Safe Customization Points
+
+### Public Roots
+
+The normal single-site public document root is usually `public_html/` when that layer is enabled.
+
+When the application has multiple virtual hosts, the app-root `public/` directory can act as a virtual-host container instead. In that mode, entries under `public/` are not just static public assets. A child directory under `public/` can contain the app-root-facing configuration and entry files for one virtual host.
+
+Before editing files under `public/`, identify whether the target is:
+
+- the shared container for multiple virtual hosts
+- one virtual host's app root under `public/<host>/`
+- a normal public asset directory inside a specific virtual host
+
+See `skeleton/public-vhost-directory.md` for details.
 
 ### Application Config
 
