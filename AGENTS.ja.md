@@ -105,6 +105,7 @@ request flow は次のように考えてください。
 - push 前に project CI を実行する。
 - 利用可能な場合は `cicd` command を優先する。
 - 明示的に依頼されていない限り、Git hook を bypass しない。
+- UNIT / MODULE の class CI file は、`asset/docs/cicd/ci-file-layout.md` の分割 CI file layout に従う。
 - commit message には、次のような approved prefix を使う:
   - `New:`
   - `Add:`

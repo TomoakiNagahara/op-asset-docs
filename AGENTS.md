@@ -105,6 +105,7 @@ Keep this request flow in mind:
 - Run the project CI before pushing changes.
 - Prefer the `cicd` command when available.
 - Do not bypass Git hooks unless explicitly requested.
+- For UNIT and MODULE class CI files, follow the split CI file layout in `asset/docs/cicd/ci-file-layout.md`.
 - Commit messages should use approved prefixes such as:
   - `New:`
   - `Add:`
