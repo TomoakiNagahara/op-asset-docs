@@ -77,6 +77,16 @@ If the operator wants to test only a specific method of that class, the operator
 
 This tests only the `Title` method of the `App` class.
 
+## CI File Layout
+
+UNIT and MODULE class CI files should use the split CI file layout described in `ci-file-layout.md`.
+
+In short:
+
+- `<ClassName>.class.php` is the class target.
+- `ci/<ClassName>.php` is the CI loader.
+- `ci/<ClassName>/<MethodName>.php` contains method-level cases.
+
 ## Why Uncommitted Changes Disappear Temporarily
 
 Before CI runs, `op-unit-ci` automatically performs `git stash save` across the repository set.

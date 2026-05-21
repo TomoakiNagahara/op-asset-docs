@@ -77,6 +77,16 @@ unit の中の特定 class だけをテストしたい場合は、次を使え�
 
 これは `App` class の `Title` method だけをテストします。
 
+## CI File Layout
+
+UNIT / MODULE の class CI file は、`ci-file-layout.md` に書かれた分割 CI file layout を使ってください。
+
+要点は次の通りです。
+
+- `<ClassName>.class.php` が class target です。
+- `ci/<ClassName>.php` が CI loader です。
+- `ci/<ClassName>/<MethodName>.php` が method-level case を持ちます。
+
 ## 未コミット変更が一時的に消える理由
 
 CI 実行前に、`op-unit-ci` は repository 群に対して自動的に `git stash save` を行います。
