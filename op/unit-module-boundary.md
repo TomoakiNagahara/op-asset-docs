@@ -18,6 +18,12 @@ Use a UNIT when the behavior is expected to be called across the framework, appl
 
 Use a MODULE when the behavior forms a relatively self-contained feature with a clear purpose, entry point, or user-facing role.
 
+Another practical distinction is call direction.
+
+UNITs are expected to be easy to call from many namespaces through access paths such as `OP()->Unit()`.
+
+MODULEs are not normally designed as cross-namespace shared APIs. They are usually invoked as a focused feature, endpoint, or adapter.
+
 ## UNIT
 
 A UNIT is a general-purpose functional unit.
@@ -45,6 +51,34 @@ Examples of UNIT-style responsibilities:
 - CI / CD orchestration
 
 If a feature is useful because many other features need to call it, it is probably a UNIT.
+
+## Call Style And Developer Center Of Gravity
+
+UNITs sit closer to the framework and CORE developer side.
+
+This does not mean only CORE developers can write units, but it does mean a UNIT usually carries framework-like expectations:
+
+- many callers may depend on it
+- it may be called frequently from different namespaces
+- it may sit under `OP()->Unit()` or the generic unit access path
+- it may expose an interface or stable contract
+- it may become part of the shared vocabulary used by other units, modules, templates, layouts, and application code
+
+Because of that, changing a UNIT can have a wider blast radius than changing one self-contained feature.
+
+Database access, form handling, validation, routing, layout control, and similar capabilities are UNIT-shaped because other framework parts are expected to call them rather than own their internals.
+
+MODULEs sit closer to the end-user or application developer side.
+
+This does not mean modules are only for end users, but it does mean a MODULE usually has a more feature-oriented center of gravity:
+
+- it is installed or enabled because the application wants that feature
+- it usually has a focused entry point or request-facing role
+- it may compose several units internally
+- other packages should not normally depend on its internal implementation
+- it should not become a hidden shared system layer unless the design is intentionally changed
+
+In short, UNITs are shared mechanisms. MODULEs are feature packages that may use those mechanisms.
 
 ## MODULE
 
@@ -76,6 +110,10 @@ If a feature is useful because it is itself a complete feature or endpoint, it i
 MODULEs may use UNITs.
 
 This is normal.
+
+The usual dependency direction is MODULE to UNIT.
+
+UNITs should be cautious about depending on MODULE internals because that can turn a feature package into an accidental framework layer.
 
 For example, a contact form module may use:
 
@@ -119,6 +157,7 @@ Choose a UNIT when:
 
 - other units or modules should call this behavior
 - the behavior is a reusable internal capability
+- the behavior is expected to be reachable frequently from different namespaces through `OP()->Unit()` or generic unit access
 - a stable API or contract matters
 - the behavior may need mapping, replacement, or framework-level configuration
 - the behavior is infrastructure-like rather than one complete feature
@@ -130,6 +169,7 @@ Choose a MODULE when:
 - the feature can be installed, enabled, disabled, or reasoned about independently
 - the feature mainly composes existing units instead of becoming a shared lower layer
 - other features should not normally depend on its internals
+- the behavior is closer to an application-facing package than a framework-wide shared mechanism
 
 If both seem possible, start by asking what other code should depend on.
 

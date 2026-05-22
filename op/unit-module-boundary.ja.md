@@ -18,6 +18,12 @@ framework、application、他の unit、module、template、layout から横断�
 
 明確な目的、entry point、または user-facing な役割を持つ、比較的 self-contained な feature は MODULE にします。
 
+もうひとつの実用的な違いは、call direction です。
+
+UNIT は、`OP()->Unit()` のような access path を通じて、多くの namespace から簡単に呼ばれることを想定します。
+
+MODULE は、通常、namespace をまたいで共有 API として呼ばれ続ける設計ではありません。focused feature、endpoint、adapter として呼び出されることが多いものです。
+
 ## UNIT
 
 UNIT は、汎用的な functional unit です。
@@ -45,6 +51,34 @@ UNIT 的な責務の例:
 - CI / CD orchestration
 
 多くの他 feature が呼び出す必要があるために有用な feature なら、おそらく UNIT です。
+
+## 呼び出し方と開発者側の重心
+
+UNIT は、framework や CORE developer 側に近い位置にあります。
+
+これは CORE developer だけが unit を書けるという意味ではありません。ただし、UNIT は通常、framework-like な期待を背負います。
+
+- 多くの caller が依存する可能性がある
+- 異なる namespace から頻繁に呼び出される可能性がある
+- `OP()->Unit()` または generic unit access path の下に置かれる可能性がある
+- interface または stable contract を公開する可能性がある
+- 他の unit、module、template、layout、application code が使う shared vocabulary の一部になる可能性がある
+
+そのため、UNIT の変更は、self-contained な feature ひとつを変更する場合より影響範囲が広くなりやすいです。
+
+database access、form handling、validation、routing、layout control などは UNIT 的です。他の framework part がそれらを呼び出すことを期待しており、それぞれの内部実装を各所が所有するべきではないためです。
+
+MODULE は、end-user または application developer 側に近い位置にあります。
+
+これは module が end user 専用という意味ではありません。ただし、MODULE は通常、より feature-oriented な重心を持ちます。
+
+- application がその feature を必要とするため install または enable される
+- focused entry point または request-facing role を持つことが多い
+- 内部で複数の unit を組み合わせる場合がある
+- 他の package は通常、その内部実装に依存するべきではない
+- 設計を明確に変更しない限り hidden shared system layer になるべきではない
+
+短く言えば、UNIT は shared mechanism です。MODULE は、その mechanism を使う feature package です。
 
 ## MODULE
 
@@ -76,6 +110,10 @@ MODULE 的な責務の例:
 MODULE が UNIT を使うのは自然です。
 
 例えば contact form module は、次を使うかもしれません。
+
+通常の dependency direction は MODULE から UNIT です。
+
+UNIT が MODULE の内部実装に依存する場合は注意が必要です。feature package が偶然 framework layer になってしまうためです。
 
 - validation unit
 - form unit
@@ -117,6 +155,7 @@ UNIT を選ぶ場合:
 
 - 他の unit や module がその behavior を呼ぶべきである
 - behavior が再利用可能な internal capability である
+- `OP()->Unit()` または generic unit access を通じて、異なる namespace から頻繁に到達されることを想定している
 - 安定した API または contract が重要である
 - mapping、replacement、framework-level configuration の対象になり得る
 - complete feature というより infrastructure-like な behavior である
@@ -128,6 +167,7 @@ MODULE を選ぶ場合:
 - feature を独立して install、enable、disable、理解できる
 - shared lower layer になるより、既存 unit を組み合わせることが主な役割である
 - 他の feature が通常その内部に依存すべきではない
+- framework-wide shared mechanism というより、application-facing package に近い behavior である
 
 両方に見える場合は、まず「他の code が何に依存すべきか」を確認します。
 
