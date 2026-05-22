@@ -73,6 +73,7 @@ Check for:
 
 ## Add Grouped JS/CSS Delivery
 
+- read `frontend-asset-authoring.md` before writing JavaScript or CSS
 - use `op-unit-webpack` to register files or directories
 - use the `webpack` module delivery entry
 - verify whether layout-specific asset directories should be included

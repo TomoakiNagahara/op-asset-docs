@@ -73,6 +73,7 @@
 
 ## grouped JS/CSS delivery を追加する
 
+- JavaScript または CSS を書く前に `frontend-asset-authoring.ja.md` を読む
 - file または directory の register に `op-unit-webpack` を使う
 - delivery entry には `webpack` module を使う
 - layout-specific asset directory を含めるべきか確認する
