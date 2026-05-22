@@ -4,11 +4,64 @@
 
 この文書は、ONEPIECE Framework における WebPack の位置づけを説明します。
 
-WebPack は、JavaScript / CSS を必要に応じてまとめて送信するための framework-level な仕組みです。
+ONEPIECE Framework における WebPack とは、拡張子ごとに複数の file をひとまとめにして、各拡張子の group を 1 回の request でまとめて送信できるようにするために ONEPIECE Framework が独自に作成した system です。
+
+たとえば、複数の CSS file は 1 つの CSS request にまとめられ、複数の JavaScript file は 1 つの JavaScript request にまとめられます。
+
+これは Node.js 製の webpack ではなく、Node.js の build tool である `webpack` と混同してはいけません。
+
+ONEPIECE Framework の文書で `WebPack` と書く場合、明示的に別の説明がない限り、この framework-native な grouping / delivery system を指します。
 
 ただし、単に directory にある file を自動的に集める機能ではありません。
 
 どの asset を pack するかは、`OP()->Unit()->WebPack()->Auto()` による明示登録を基本とします。
+
+## Packed Content Hash
+
+WebPack は拡張子ごとに content を packing します。各 extension group は、その拡張子に登録された file から構築されます。
+
+WebPack は、拡張子ごとに packing した extension group ごとの hash value を生成します。
+
+ONEPIECE Framework の概念は、hash を何から生成するかを強制しません。WebPack unit は、packed binary output、content value、registered file list、または unit が所有する別の cache identity から hash を導出できます。
+
+hash source を選び実装する責任は `op-unit-webpack` が負います。
+
+生成された hash は grouped asset URL に含められます。delivery request にその hash が含まれる場合、WebPack は対応する extension group の cached packed content を出力できます。
+
+この hash は debug 時にも役立ちます。page がどの packed content version を request しているか、browser、server-side cache、WebPack unit state のどれかが古い packed result を参照していないかを確認する手がかりになります。
+
+## File Authoring Rules
+
+WebPack は同じ拡張子の複数 file を 1 つの request にまとめるため、frontend file は framework 共通の asset authoring rule に従う必要があります。
+
+JavaScript または CSS を追加・変更する前に `op/frontend-asset-authoring.ja.md` を参照してください。
+
+## NewWorld Rendering Flow
+
+WebPack の登録タイミングは、ONEPIECE Framework の NewWorld rendering flow と合わせて理解する必要があります。
+
+通常の HTML 出力では、application endpoint は layout が描画される前に実行されます。
+
+1. Router unit が endpoint を解決する
+2. App unit が Router unit から、Router unit が解決した endpoint を取得する
+3. App unit が endpoint を `OP()->Template()` で実行する
+4. endpoint の出力を App unit の buffer に保持する
+5. Layout unit を実行する
+6. layout が `layout/head.phtml` などの shared template を呼ぶ
+7. layout が `OP()->Content()` で buffer 済み endpoint content を出力する
+
+つまり、endpoint content の中で行われた WebPack 登録は、`layout/head.phtml` が WebPack の `<link>` や `<script>` tag を出力する前に完了しています。
+
+この flow を確認せずに、endpoint-owned な WebPack 登録を「head への出力に間に合っていない」と判断してはいけません。
+
+WebPack の hash や grouped asset URL が期待通りでない場合は、次を確認します。
+
+- endpoint 実行中にどの file が登録されたか
+- layout rendering 中に active WebPack unit が hash をどのように生成したか
+- 別 request である `/webpack/css/...` や `/webpack/js/...` の delivery request が、登録済み asset list をどのように再構築または参照しているか
+- delivery request が意図した layout-owned / app-owned asset directory を登録しているか
+
+grouped asset delivery request は、HTML page request とは別の request です。どちらも WebPack unit によって連携しますが、delivery request の責務は endpoint rendering とは同じではありません。
 
 ## 構成要素
 

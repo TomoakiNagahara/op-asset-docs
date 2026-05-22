@@ -4,11 +4,64 @@
 
 This document describes WebPack in the ONEPIECE Framework.
 
-WebPack is the framework-level mechanism for delivering JavaScript / CSS assets together when needed.
+WebPack in the ONEPIECE Framework is the framework's own system for grouping multiple files by extension and delivering each extension group with a single request.
+
+For example, multiple CSS files are grouped into one CSS request, and multiple JavaScript files are grouped into one JavaScript request.
+
+It is not Node.js webpack and should not be confused with the Node.js build tool named `webpack`.
+
+In ONEPIECE Framework documents, `WebPack` refers to this framework-native grouping and delivery system unless explicitly stated otherwise.
 
 It is not a mechanism that automatically collects every file just because it exists in a directory.
 
 The default model is explicit registration through `OP()->Unit()->WebPack()->Auto()`.
+
+## Packed Content Hash
+
+WebPack packs content by extension. Each extension group is built from the registered files for that extension.
+
+WebPack generates a hash value for each packed extension group.
+
+The ONEPIECE Framework concept does not force what the hash must be generated from. A WebPack unit may derive it from the packed binary output, the content values, the registered file list, or another unit-owned cache identity.
+
+The responsibility for choosing and implementing the hash source belongs to `op-unit-webpack`.
+
+The generated hash is included in the grouped asset URL. When the delivery request contains that hash, WebPack can output the cached packed content for the corresponding extension group.
+
+This hash is also useful during debugging. It gives a visible clue about which packed content version the page requested, and whether the browser, server-side cache, or WebPack unit state is still pointing at an older packed result.
+
+## File Authoring Rules
+
+Because WebPack groups multiple files of the same extension into one request, frontend files must follow the shared framework asset authoring rules.
+
+See `op/frontend-asset-authoring.md` before adding or changing JavaScript or CSS.
+
+## NewWorld Rendering Flow
+
+WebPack registration must be understood together with the ONEPIECE Framework NewWorld rendering flow.
+
+For normal HTML output, the application endpoint is executed before the layout is rendered:
+
+1. the Router unit resolves the endpoint
+2. the App unit gets the Router-resolved endpoint from the Router unit
+3. the App unit executes the endpoint through `OP()->Template()`
+4. endpoint output is stored in the App unit buffer
+5. the Layout unit is executed
+6. the layout calls shared templates such as `layout/head.phtml`
+7. the layout outputs the buffered endpoint content through `OP()->Content()`
+
+This means WebPack registrations made inside the endpoint content are completed before `layout/head.phtml` emits the WebPack `<link>` or `<script>` tags.
+
+Do not diagnose endpoint-owned WebPack registration as "too late for the head" without first checking this flow.
+
+When a WebPack hash or grouped asset URL looks wrong, inspect:
+
+- which files were registered while the endpoint was executed
+- how the active WebPack unit generated the hash during layout rendering
+- how the separate `/webpack/css/...` or `/webpack/js/...` delivery request reconstructs or reads the registered asset list
+- whether the delivery request is registering the intended layout-owned and app-owned asset directories
+
+The grouped asset delivery request is a separate request from the HTML page request. Its responsibility is not the same as endpoint rendering, even though both are coordinated through the WebPack unit.
 
 ## Components
 
