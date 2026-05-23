@@ -58,9 +58,11 @@ request flow は次のように考えてください。
 - comment は、非自明な behavior、intent、assumption、constraint、risk を明確にするために使う。コードを読めば一目瞭然な内容を言い換えるだけの comment は避ける。
 - documentation は clear and concise に保つ。
 - config file は短く、ぱっと見で分かる状態に保つ。長い procedural logic、外部 service data、大きな hardcoded list を config file に隠さない。その behavior は責任を持つ function、class、unit、module、または web-server / deployment setting へ移す。
+- 読みやすい config default は coding manner として尊重する。default config value は、third-party user が documentation を読んだり AI assistant に尋ねたりしなくても理解できるようにする。config key が少数の意味ある値を受け取る場合は、comment で valid value を列挙または例示し、その value の意味と runtime effect を config file の中に直接残す。
 - CDN、proxy、cloud、vendor の IP range など、外部で管理される変動 data を黙って hardcode しない。公開情報であっても時間とともに変わり、更新負荷と運用リスクを生むため、そのような logic を追加する前に user に確認するか、application code の外で保守される既存の trusted source を使う。
 - JavaScript または CSS を追加・変更する前に `asset/docs/op/frontend-asset-authoring.ja.md` に従う。WebPack-managed JavaScript file では file-local code を closure の中に閉じ込める。
 - raw PHP superglobal より framework API を優先する。
+- end-user、application、UNIT、MODULE の code では、`_ROOT_ASSET_`、`_ROOT_APP_`、`_ROOT_CORE_` のような framework-internal root constant を使わない。これらの constant は framework internal 用であり、end-user code が依存すると core 側で将来 deprecate または置換したい時の影響が大きくなる。代わりに public meta-path API を使う。local file path には `OP()->Path('asset:/...')`、public URL には `OP()->URL('app:/...')`、template include には `OP()->Template('asset:/...')` を使う。
 - 明示的に必要でない限り、raw `$_GET`、`$_POST`、`$_REQUEST`、`$_COOKIE`、`$_SESSION`、`$_SERVER` を使わない。
 - 適切な場合は `OP()->Request()` を使う。
 - debugging に `var_dump()` や `print_r()` を使わない。

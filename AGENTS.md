@@ -58,9 +58,11 @@ Keep this request flow in mind:
 - Use comments to clarify non-obvious behavior, intent, assumptions, constraints, or risks; avoid comments that only restate self-evident code.
 - Keep documentation clear and concise.
 - Keep configuration files short and immediately readable. Do not hide long procedural logic, external service data, or large hardcoded lists in config files; move that behavior to an owned function, class, unit, module, or web-server/deployment setting.
+- Treat readable config defaults as coding manners. Default config values should be understandable to third-party users without reading documentation or asking an AI assistant. When a config key accepts a small set of meaningful values, list or demonstrate valid values in comments, and explain the value's meaning and runtime effect directly in the config file.
 - Do not silently hardcode externally maintained data such as CDN, proxy, cloud, or vendor IP ranges. Even if the data is public, it can change over time and creates update burden and operational risk; ask the user before adding such logic, or use an existing trusted source maintained outside application code.
 - Before adding or changing JavaScript or CSS, follow `asset/docs/op/frontend-asset-authoring.md`; WebPack-managed JavaScript files should keep file-local code inside a closure.
 - Prefer framework APIs over raw PHP superglobals.
+- Do not use framework-internal root constants such as `_ROOT_ASSET_`, `_ROOT_APP_`, or `_ROOT_CORE_` in end-user, application, UNIT, or MODULE code. These constants are reserved for framework internals; if end-user code depends on them, future core deprecation or replacement becomes much harder. Use public meta-path APIs instead: `OP()->Path('asset:/...')` for local file paths, `OP()->URL('app:/...')` for public URLs, and `OP()->Template('asset:/...')` for template inclusion.
 - Do not use raw `$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_SESSION`, or `$_SERVER` unless explicitly necessary.
 - Use `OP()->Request()` where appropriate.
 - Do not use `var_dump()` or `print_r()` for debugging.
