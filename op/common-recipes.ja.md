@@ -29,6 +29,17 @@
 - machine-local value は `asset/config/_name.php` に置く
 - environment-specific value を template に hardcode しない
 
+## UNIT / MODULE の default config を追加する
+
+- package-owned default config は `asset/unit/<unit-name>/config.php` または `asset/module/<module-name>/config.php` に置く
+- user-defined application config は `asset/config/<name>.php` に置く
+- machine-local override は `asset/config/_<name>.php` に置く
+- config layer は `array_replace_recursive()` semantics で merge する
+- default config value は package の通常動作に適した値にする
+- default value は config file の中だけで理解できるようにする。comment で valid value を示し、それぞれの value の runtime effect を説明して、third-party user が別 document を読んだり AI assistant に尋ねたりしなくても設定を理解できるようにする
+- current `Config::Get(<name>)` は `asset/unit/<name>/config.php` を自動で読み込むが、`asset/module/<name>/config.php` は自動では読み込まない
+- `asset/module/<module-name>/config.php` は template として扱い、MODULE config を runtime behavior に反映したい user が `asset/config/<module-name>.php` へ copy する
+
 ## unit を差し替える
 
 - 対応する interface contract を特定する

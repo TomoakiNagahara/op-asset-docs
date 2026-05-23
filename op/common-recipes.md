@@ -29,6 +29,17 @@ This document gives task-oriented patterns that help AI and contributors carry o
 - put machine-local values in `asset/config/_name.php`
 - avoid hardcoding environment-specific values in templates
 
+## Add UNIT or MODULE Default Configuration
+
+- put package-owned default config in `asset/unit/<unit-name>/config.php` or `asset/module/<module-name>/config.php`
+- put user-defined application config in `asset/config/<name>.php`
+- put machine-local overrides in `asset/config/_<name>.php`
+- merge config layers with `array_replace_recursive()` semantics
+- keep default config values suitable for the package's normal behavior
+- make default values self-explanatory in the config file; use comments to show valid values and explain each value's runtime effect so third-party users can understand the setting without reading separate docs or asking an AI assistant
+- note that current `Config::Get(<name>)` automatically loads `asset/unit/<name>/config.php`, but never automatically loads `asset/module/<name>/config.php`
+- treat `asset/module/<module-name>/config.php` as a template that users copy to `asset/config/<module-name>.php` when they want the MODULE config to affect runtime behavior
+
 ## Replace a Unit
 
 - identify the relevant interface contract
