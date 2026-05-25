@@ -13,6 +13,7 @@ They are stable contracts that AI and contributors should preserve unless the ta
 - `for-tomoaki-nagahara.md`
 - `responsibility-boundaries.md`
 - `unit-module-boundary.md`
+- `php-version-support.md`
 - `common-recipes.md`
 
 ## Entry Point and Startup
@@ -65,6 +66,12 @@ They are stable contracts that AI and contributors should preserve unless the ta
 - `git push` should normally be checked against CI state before shared publication.
 - CI marker files are part of the current push control model.
 - The `local` remote exception is an operational exception, not a removal of all push rules.
+
+## PHP Runtime Support
+
+- The 2030 runtime support baseline is PHP 8.0 or higher.
+- PHP 7.x is not part of the supported 2030 runtime line.
+- `asset/core/Bootstrap.php` is the implementation-level runtime gate for the minimum PHP version.
 
 ## Rolling Update Contract
 

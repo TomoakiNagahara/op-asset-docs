@@ -13,6 +13,7 @@ task が明示的に contract-level change を要求していない限り、AI �
 - `for-tomoaki-nagahara.md`
 - `responsibility-boundaries.md`
 - `unit-module-boundary.md`
+- `php-version-support.md`
 - `common-recipes.md`
 
 ## エントリーポイントと起動
@@ -65,6 +66,12 @@ task が明示的に contract-level change を要求していない限り、AI �
 - `git push` は通常、共有公開前に CI 状態と照合されるべきである
 - CI marker file は現行 push control model の一部である
 - `local` remote 例外は運用上の例外であり、すべての push rule を除去するものではない
+
+## PHP Runtime Support
+
+- 2030 runtime support baseline は PHP 8.0 以上である
+- PHP 7.x は supported 2030 runtime line に含まれない
+- `asset/core/Bootstrap.php` は minimum PHP version に対する implementation-level runtime gate である
 
 ## rolling update の契約
 
