@@ -59,10 +59,12 @@ Keep this request flow in mind:
 - Keep documentation clear and concise.
 - Keep configuration files short and immediately readable. Do not hide long procedural logic, external service data, or large hardcoded lists in config files; move that behavior to an owned function, class, unit, module, or web-server/deployment setting.
 - Treat readable config defaults as coding manners. Default config values should be understandable to third-party users without reading documentation or asking an AI assistant. When a config key accepts a small set of meaningful values, list or demonstrate valid values in comments, and explain the value's meaning and runtime effect directly in the config file.
+- Write memory-conscious code. ONEPIECE Framework treats unnecessary memory use as forbidden. Do not load rarely used recovery logic, diagnostics, heavy helpers, large data, or error-only processing during normal successful requests. Split that code into a focused file or class and load it lazily only when the condition that needs it has actually occurred.
 - Do not silently hardcode externally maintained data such as CDN, proxy, cloud, or vendor IP ranges. Even if the data is public, it can change over time and creates update burden and operational risk; ask the user before adding such logic, or use an existing trusted source maintained outside application code.
 - Before adding or changing JavaScript or CSS, follow `asset/docs/op/frontend-asset-authoring.md`; WebPack-managed JavaScript files should keep file-local code inside a closure.
 - Prefer framework APIs over raw PHP superglobals.
-- Do not use framework-internal root constants such as `_ROOT_ASSET_`, `_ROOT_APP_`, or `_ROOT_CORE_` in end-user, application, UNIT, or MODULE code. These constants are reserved for framework internals; if end-user code depends on them, future core deprecation or replacement becomes much harder. Use public meta-path APIs instead: `OP()->Path('asset:/...')` for local file paths, `OP()->URL('app:/...')` for public URLs, and `OP()->Template('asset:/...')` for template inclusion.
+- Do not use framework-internal root constants such as `_ROOT_ASSET_`, `_ROOT_APP_`, or `_ROOT_CORE_` in end-user, application, UNIT, or MODULE code. These constants are reserved for framework internals; if end-user code depends on them, future core deprecation or replacement becomes much harder. Use public meta-path APIs when path abstraction is needed: `OP()->Path('asset:/...')` for environment-dependent local file paths, `OP()->URL('app:/...')` for public URLs, and `OP()->Template('asset:/...')` for template inclusion. When loading a file at a fixed location inside the same repository and same package, prefer `__DIR__ . '/file.php'` because no framework path abstraction is needed.
+- Respect the ONEPIECE Framework namespace convention. UNIT and MODULE main classes are exposed under `OP\UNIT` or `OP\MODULE`, but helper or sub classes must be isolated under the unit or module subnamespace to avoid collisions with other packages. For example, a counter module helper class belongs under `OP\MODULE\COUNTER`, not directly under `OP\MODULE`.
 - Do not use raw `$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_SESSION`, or `$_SERVER` unless explicitly necessary.
 - Use `OP()->Request()` where appropriate.
 - Do not use `var_dump()` or `print_r()` for debugging.
@@ -108,6 +110,7 @@ Keep this request flow in mind:
 - Prefer the `cicd` command when available.
 - Do not bypass Git hooks unless explicitly requested.
 - For UNIT and MODULE class CI files, follow the split CI file layout in `asset/docs/cicd/ci-file-layout.md`.
+- Treat visible `*.class.php` files in a UNIT or MODULE repository as CI targets. The current CI client scans the package root and `class/` directory for `*.class.php`, instantiates those classes, and requires `OP_CI`. Do not place a non-CI helper or rare error-handling class in that visible class-file pattern unless it also follows the class CI contract. If such code is intentionally outside CI, choose a file placement or filename that the CI collector does not treat as a class target, and document the reason near the package.
 - Commit messages should use approved prefixes such as:
   - `New:`
   - `Add:`

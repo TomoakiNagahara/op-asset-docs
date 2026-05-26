@@ -59,10 +59,12 @@ request flow は次のように考えてください。
 - documentation は clear and concise に保つ。
 - config file は短く、ぱっと見で分かる状態に保つ。長い procedural logic、外部 service data、大きな hardcoded list を config file に隠さない。その behavior は責任を持つ function、class、unit、module、または web-server / deployment setting へ移す。
 - 読みやすい config default は coding manner として尊重する。default config value は、third-party user が documentation を読んだり AI assistant に尋ねたりしなくても理解できるようにする。config key が少数の意味ある値を受け取る場合は、comment で valid value を列挙または例示し、その value の意味と runtime effect を config file の中に直接残す。
+- memory-conscious な code を書く。ONEPIECE Framework では不要な memory use は禁忌です。通常の成功 request で、ほとんど使われない recovery logic、diagnostics、heavy helper、大きな data、error-only processing を読み込まない。その code は focused file または class に分離し、それが本当に必要になった条件が発生した時だけ lazy-load する。
 - CDN、proxy、cloud、vendor の IP range など、外部で管理される変動 data を黙って hardcode しない。公開情報であっても時間とともに変わり、更新負荷と運用リスクを生むため、そのような logic を追加する前に user に確認するか、application code の外で保守される既存の trusted source を使う。
 - JavaScript または CSS を追加・変更する前に `asset/docs/op/frontend-asset-authoring.ja.md` に従う。WebPack-managed JavaScript file では file-local code を closure の中に閉じ込める。
 - raw PHP superglobal より framework API を優先する。
-- end-user、application、UNIT、MODULE の code では、`_ROOT_ASSET_`、`_ROOT_APP_`、`_ROOT_CORE_` のような framework-internal root constant を使わない。これらの constant は framework internal 用であり、end-user code が依存すると core 側で将来 deprecate または置換したい時の影響が大きくなる。代わりに public meta-path API を使う。local file path には `OP()->Path('asset:/...')`、public URL には `OP()->URL('app:/...')`、template include には `OP()->Template('asset:/...')` を使う。
+- end-user、application、UNIT、MODULE の code では、`_ROOT_ASSET_`、`_ROOT_APP_`、`_ROOT_CORE_` のような framework-internal root constant を使わない。これらの constant は framework internal 用であり、end-user code が依存すると core 側で将来 deprecate または置換したい時の影響が大きくなる。path abstraction が必要な場合は public meta-path API を使う。environment-dependent な local file path には `OP()->Path('asset:/...')`、public URL には `OP()->URL('app:/...')`、template include には `OP()->Template('asset:/...')` を使う。同じ repository かつ同じ package 内の固定位置にある file を読み込む場合は、framework path abstraction は不要なので `__DIR__ . '/file.php'` を優先する。
+- ONEPIECE Framework の namespace convention を尊重する。UNIT と MODULE の main class は `OP\UNIT` または `OP\MODULE` に展開されるが、helper class や sub class は他 package の class と衝突しないように、unit 名または module 名の subnamespace に隔離する。たとえば counter module の helper class は、`OP\MODULE` 直下ではなく `OP\MODULE\COUNTER` に置く。
 - 明示的に必要でない限り、raw `$_GET`、`$_POST`、`$_REQUEST`、`$_COOKIE`、`$_SESSION`、`$_SERVER` を使わない。
 - 適切な場合は `OP()->Request()` を使う。
 - debugging に `var_dump()` や `print_r()` を使わない。
@@ -108,6 +110,7 @@ request flow は次のように考えてください。
 - 利用可能な場合は `cicd` command を優先する。
 - 明示的に依頼されていない限り、Git hook を bypass しない。
 - UNIT / MODULE の class CI file は、`asset/docs/cicd/ci-file-layout.md` の分割 CI file layout に従う。
+- UNIT / MODULE repository 内の visible な `*.class.php` file は CI target として扱う。現在の CI client は package root と `class/` directory の `*.class.php` を列挙し、その class を instantiate して `OP_CI` を要求する。CI 対象ではない helper や rare error-handling class を、この visible class-file pattern に置かない。置く場合は class CI contract に従う。意図的に CI 対象外にする code は、CI collector が class target として扱わない file placement または filename を選び、その理由を package の近くに document 化する。
 - commit message には、次のような approved prefix を使う:
   - `New:`
   - `Add:`
