@@ -40,6 +40,14 @@
 - current `Config::Get(<name>)` は `asset/unit/<name>/config.php` を自動で読み込むが、`asset/module/<name>/config.php` は自動では読み込まない
 - `asset/module/<module-name>/config.php` は template として扱い、MODULE config を runtime behavior に反映したい user が `asset/config/<module-name>.php` へ copy する
 
+## 通常 request の memory を軽く保つ
+
+- normal successful request path は小さく保つ
+- initialization failure、recovery guidance、diagnostics、rare maintenance path、大きな optional helper のためだけに使う code は通常 request で読み込まない
+- rare-path logic は focused file または class に移す
+- その file または class は、本当に必要になった条件が発生した後にだけ読み込む
+- framework や package file を lazy-load する時は、`OP()->Path('asset:/...')` のような public framework API を優先する
+
 ## unit を差し替える
 
 - 対応する interface contract を特定する

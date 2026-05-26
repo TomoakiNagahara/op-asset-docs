@@ -40,6 +40,14 @@ This document gives task-oriented patterns that help AI and contributors carry o
 - note that current `Config::Get(<name>)` automatically loads `asset/unit/<name>/config.php`, but never automatically loads `asset/module/<name>/config.php`
 - treat `asset/module/<module-name>/config.php` as a template that users copy to `asset/config/<module-name>.php` when they want the MODULE config to affect runtime behavior
 
+## Keep Normal Requests Memory-Light
+
+- keep normal successful request paths small
+- do not load code used only for initialization failures, recovery guidance, diagnostics, rare maintenance paths, or large optional helpers
+- move rare-path logic into a focused file or class
+- load that file or class only after the condition that needs it has actually occurred
+- prefer public framework APIs such as `OP()->Path('asset:/...')` when lazy-loading framework or package files
+
 ## Replace a Unit
 
 - identify the relevant interface contract
