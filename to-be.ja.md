@@ -39,8 +39,11 @@ framework 文書では、実務上次のように分けます。
 
 current 実装には歴史的経緯による散在が残っていますが、望ましい方向はこの集中です。
 
+より広い CI/CD concept としては、`cicd` が application 全体を管理し、CI が必要な全 submodule を全数検査し、CD は application 全体が CI に合格した後でだけ開始する、という形を理想とします。
+
 主な参照先:
 
+- `asset/docs/cicd/concept.ja.md`
 - `asset/docs/cicd/hooks.md`
 - `asset/unit/ci/docs/ci-spec.md`
 - `asset/unit/cd/docs/isCanPushToGithub.md`

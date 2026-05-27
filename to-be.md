@@ -39,8 +39,11 @@ The ideal long-term structure is:
 
 This is the preferred direction even though current implementation details are still historically scattered.
 
+The broader CI/CD concept is that `cicd` manages the whole application set, CI performs full inspection of all required submodules, and CD begins only after the full application set has passed CI.
+
 Primary references:
 
+- `asset/docs/cicd/concept.md`
 - `asset/docs/cicd/hooks.md`
 - `asset/unit/ci/docs/ci-spec.md`
 - `asset/unit/cd/docs/isCanPushToGithub.md`
