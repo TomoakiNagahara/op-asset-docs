@@ -14,6 +14,8 @@ This is the standard integrated workflow, but not a mandatory universal requirem
 
 Developers and end users may adopt it, but they may also choose third-party or independently developed CI/CD systems.
 
+For the intended ONEPIECE CI/CD concept and terminology boundary, see `concept.md`.
+
 ## Standard Execution
 
 The normal usage is:
@@ -23,6 +25,8 @@ The normal usage is:
 ```
 
 This runs CI against the currently committed repository state.
+
+[DOC-GAP] The current `cicd` implementation may continue to CD after CI succeeds and dry-run is not active. That is valid only if CI has already returned whole-application success. If CD begins before the full CI run has completed, that behavior is abnormal and violates the flow invariant described in `concept.md`.
 
 ## Common Options
 

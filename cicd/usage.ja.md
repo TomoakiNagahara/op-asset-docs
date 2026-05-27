@@ -14,6 +14,8 @@ ONEPIECE Framework では、framework root に実行形式の `cicd` file があ
 
 開発者やエンドユーザーはこれを採用できますが、third-party 製や独自開発の CI/CD system を選んでも構いません。
 
+ONEPIECE における CI/CD の意図した概念と用語境界については、`concept.ja.md` を参照してください。
+
 ## 標準実行
 
 通常の使い方は次です。
@@ -23,6 +25,8 @@ ONEPIECE Framework では、framework root に実行形式の `cicd` file があ
 ```
 
 これは、現在 commit 済みの repository 状態に対して CI を実行します。
+
+[DOC-GAP] current の `cicd` 実装は、CI 成功後かつ dry-run でない場合に CD へ進むことがあります。これは、CI が application 全体の合格を返した後である場合にだけ正当です。full CI run が完了する前に CD が始まるなら、その挙動は異常であり、`concept.ja.md` に書かれた flow invariant に違反します。
 
 ## よく使うオプション
 
