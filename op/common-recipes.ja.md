@@ -9,6 +9,7 @@
 - `for-tomoaki-nagahara.md`
 - `invariants.md`
 - `responsibility-boundaries.md`
+- `unit-module-authoring.ja.md`
 
 ## ページを追加する
 

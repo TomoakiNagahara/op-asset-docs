@@ -9,6 +9,7 @@ This document gives task-oriented patterns that help AI and contributors carry o
 - `for-tomoaki-nagahara.md`
 - `invariants.md`
 - `responsibility-boundaries.md`
+- `unit-module-authoring.md`
 
 ## Add a Page
 
