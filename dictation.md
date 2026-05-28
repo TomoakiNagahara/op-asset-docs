@@ -23,3 +23,7 @@ Use this file for agent-facing guidance derived from those language-specific dic
 - Original dictation from other language speakers belongs in `dictation.<language>.md`.
 - Agent-facing summaries and cross-language guidance belong in `dictation.md`.
 - Keep `AGENTS.md` thin; it should point agents to the dictation/documentation-authoring rules instead of duplicating them.
+- ONEPIECE Framework coding rules require method closing braces to include the exact method name as a trailing comment, such as `} // Bar`, to reduce unrelated Git diff ranges and lower rebase/merge conflict risk.
+- For local static singleton variables, initialize with an explicit `if(!$variable)` block and return the variable afterward; avoid compact `return $variable ??= new Class();` expressions because Eclipse can warn that the variable is unused.
+- Before UNIT/MODULE coding, read `asset/docs/op/unit-module-authoring.md`, `asset/docs/op/coding-rules.md`, `asset/docs/cicd/ci-file-layout.md`, `asset/docs/op/common-recipes.md`, and `asset/docs/op/design-philosophy.md`.
+- UNIT/MODULE code should avoid unnecessary classes and methods, avoid splitting one-call methods without real benefit, keep normal request memory small, keep entry files thin, keep helper classes in package subnamespaces, treat visible `*.class.php` files as CI targets, use split CI files by class and method, return only the minimum value needed by callers, use `OP()->Session()` instead of raw `$_SESSION`, and keep detailed docs in responsible documents rather than `AGENTS.md`.
