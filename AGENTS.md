@@ -34,83 +34,39 @@ Use `asset/docs/CUSTOMIZATION_MAP.md` for:
 
 ## Runtime Flow
 
-Keep this request flow in mind:
-
-1. Apache rewrite or direct entry sends the request to `app.php`.
-2. `app.php` sets `APP_ROOT` and loads `asset/bootstrap/index.php` if it exists.
-3. Bootstrap loads core and config files, then supporting bootstrap includes.
-4. `OP()->Unit()->App()->Auto()` continues the application lifecycle.
-5. Templates are eventually chosen and rendered through framework routing and template APIs.
+For request lifecycle details, read `asset/docs/skeleton/runtime-lifecycle.md` and `asset/docs/CUSTOMIZATION_MAP.md`.
 
 ## ONEPIECE Framework Rules
 
-- HTML files may be passed through the framework.
-- PHP code inside `.html` files may be executed.
-- Layout rendering may still be applied to `.html` files.
-- Directory-level `index.php` files work as controllers.
-- Use `.phtml` for templates.
-- Keep routing decisions and template rendering concerns separated.
-- Preserve the fallback startup logic in `index.php`.
+- For pass-through behavior, read `asset/docs/new-world/html-pass-through.md`.
+- For template placement, read `asset/docs/skeleton/template-directory.md`.
+- For entry-point behavior, read `asset/docs/skeleton/entry-point.md`.
+- For framework-wide design intent, read documents under `asset/docs/op/`.
 
 ## Coding Rules
 
-- Write code comments in English.
-- Use comments to clarify non-obvious behavior, intent, assumptions, constraints, or risks; avoid comments that only restate self-evident code.
+- For framework-wide coding rules, including public-name spelling checks, comments, config readability, and debugging, read `asset/docs/op/coding-rules.md`.
 - Keep documentation clear and concise.
-- Keep configuration files short and immediately readable. Do not hide long procedural logic, external service data, or large hardcoded lists in config files; move that behavior to an owned function, class, unit, module, or web-server/deployment setting.
-- Treat readable config defaults as coding manners. Default config values should be understandable to third-party users without reading documentation or asking an AI assistant. When a config key accepts a small set of meaningful values, list or demonstrate valid values in comments, and explain the value's meaning and runtime effect directly in the config file.
-- Write memory-conscious code. ONEPIECE Framework treats unnecessary memory use as forbidden. Do not load rarely used recovery logic, diagnostics, heavy helpers, large data, or error-only processing during normal successful requests. Split that code into a focused file or class and load it lazily only when the condition that needs it has actually occurred.
+- Keep normal request paths memory-light; see `asset/docs/op/design-philosophy.md` and `asset/docs/op/common-recipes.md`.
 - Do not silently hardcode externally maintained data such as CDN, proxy, cloud, or vendor IP ranges. Even if the data is public, it can change over time and creates update burden and operational risk; ask the user before adding such logic, or use an existing trusted source maintained outside application code.
 - Before adding or changing JavaScript or CSS, follow `asset/docs/op/frontend-asset-authoring.md`; WebPack-managed JavaScript files should keep file-local code inside a closure.
 - Prefer framework APIs over raw PHP superglobals.
-- Do not use framework-internal root constants such as `_ROOT_ASSET_`, `_ROOT_APP_`, or `_ROOT_CORE_` in end-user, application, UNIT, or MODULE code. These constants are reserved for framework internals; if end-user code depends on them, future core deprecation or replacement becomes much harder. Use public meta-path APIs when path abstraction is needed: `OP()->Path('asset:/...')` for environment-dependent local file paths, `OP()->URL('app:/...')` for public URLs, and `OP()->Template('asset:/...')` for template inclusion. When loading a file at a fixed location inside the same repository and same package, prefer `__DIR__ . '/file.php'` because no framework path abstraction is needed.
-- Respect the ONEPIECE Framework namespace convention. UNIT and MODULE main classes are exposed under `OP\UNIT` or `OP\MODULE`, but helper or sub classes must be isolated under the unit or module subnamespace to avoid collisions with other packages. For example, a counter module helper class belongs under `OP\MODULE\COUNTER`, not directly under `OP\MODULE`.
+- For UNIT/MODULE creation or restructuring, including namespace placement, CI visibility, lazy loading, and path rules, read `asset/docs/op/unit-module-authoring.md`.
 - Do not use raw `$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_SESSION`, or `$_SERVER` unless explicitly necessary.
 - Use `OP()->Request()` where appropriate.
-- Do not use `var_dump()` or `print_r()` for debugging.
-- Use `D()` for framework-aware debug output.
 
 ## Documentation Rules
 
-- README.md is for humans.
-- AGENTS.md is for AI coding agents and is exposed at the repository root through a symlink to `asset/docs/AGENTS.md`.
-- CUSTOMIZATION_MAP.md describes safe customization points and framework ownership boundaries; maintain it as `asset/docs/CUSTOMIZATION_MAP.md`.
-- CODEX.md is only for Codex CLI-specific workflow notes; maintain it as `asset/docs/CODEX.md`.
-- English documents remain the canonical working documents for AI consumption.
-- Japanese translations are required because the user reviews document correctness in Japanese and uses the translation to validate whether the English document is accurate.
-- When adding a Japanese translation, place it beside the English file and use the `.ja.md` suffix.
-- Do not use `asset/docs/ja/`, any `docs/ja/` directory under `asset/core`, `asset/unit`, or `asset/module`, or `asset/docs/spec/` as the default location for new translations.
-- OP separates features into individual files such as classes, traits, and functions, and Git commits are usually made per file rather than per multi-file feature bundle.
-- This file-by-file commit style works because OP is highly loosely coupled; keep documentation aligned with that model.
-- When documentation depends on one separated file, create a document named for that file instead of merging those details into a shared document.
-- Keep separated-file documentation split by file name because file-level commits greatly reduce rebase and cherry-pick conflicts.
-- When adding, changing, or deleting a feature file, the related CI test and same-named documentation are the other files most likely to be committed with it; matching documentation file names to class or function file names keeps that commit unit clear.
-- When documenting current As-Is behavior, place the authoritative details beside the code owner that determines the behavior, such as the responsible class, trait, function, unit, or module docs.
-- Do not duplicate the same As-Is implementation detail across documents with different responsibility scopes; documents outside the owner should link or refer to the owner document instead.
-- Choose documentation paths from the code owner and responsibility boundary, not only from the page where the topic was first noticed.
-- Keep intended specification, current As-Is behavior, and curated gap indexes separated; gap indexes should point to the As-Is owner rather than becoming the detailed owner themselves.
-- Use `asset/docs/httpd/` for web-server-related documents.
-- Use `asset/docs/cicd/` for framework-level CI/CD philosophy, history, background, and operating-model documents.
-- Use `asset/docs/unit/` for philosophy, history, and background of the Unit system itself.
-- Use `asset/docs/module/` for philosophy, history, and background of the Module system itself.
-- Use `asset/docs/new-world/` for NEW WORLD philosophy, background, and historical documents.
-- Use `asset/docs/core/` for op-core philosophy, background, and high-level core feature documents.
-- Use `asset/docs/op/` for framework-wide philosophy, design intent, and background of the ONEPIECE Framework.
-- Use `asset/docs/skeleton/` for skeleton-specific framework documents.
-- If a framework-level document does not fit any of the categories above, store it directly under `asset/docs/`.
-- In public repository documents, abstract deployment-specific proper nouns such as real site names, hostnames, subdomains, layout names, user names, and local project names. Use placeholders such as `<site-name>`, `<subdomain>`, `<layout-name>`, or `<project-name>` unless the proper noun is the subject of the document.
-- Do not put local absolute file links such as `/System/Volumes/...` into repository documents.
-- In repository documents, prefer plain repository-relative paths instead of clickable local-environment file links.
-- When a document describes a current problem, mismatch, risk, limitation, or future fix direction, add a searchable tag such as `[DOC-ISSUE]`, `[DOC-RISK]`, `[DOC-GAP]`, `[DOC-FUTURE]`, or `[DOC-PRIORITY1]`.
-- Use `[DOC-PRIORITY1]` when the specification is already clear but the current implementation is clearly different.
+- Before creating, moving, or restructuring documentation, read `asset/docs/documentation-authoring.md`.
+- When the user gives oral or chat instructions that should be preserved, record the original text in the responsible language-specific dictation file such as `dictation.ja.md`, and keep agent-facing guidance in `dictation.md`; use `asset/docs/documentation-authoring.md` to decide whether the framework, UNIT, or MODULE owns that note.
+- Keep `AGENTS.md` as a thin routing guide. Put framework-wide, CORE, UNIT, MODULE, CI/CD, and documentation-specific rules in their responsible documents and link to them from here only when needed.
 
 ## Git / CI Rules
 
 - Run the project CI before pushing changes.
 - Prefer the `cicd` command when available.
 - Do not bypass Git hooks unless explicitly requested.
-- For UNIT and MODULE class CI files, follow the split CI file layout in `asset/docs/cicd/ci-file-layout.md`.
-- Treat visible `*.class.php` files in a UNIT or MODULE repository as CI targets. The current CI client scans the package root and `class/` directory for `*.class.php`, instantiates those classes, and requires `OP_CI`. Do not place a non-CI helper or rare error-handling class in that visible class-file pattern unless it also follows the class CI contract. If such code is intentionally outside CI, choose a file placement or filename that the CI collector does not treat as a class target, and document the reason near the package.
+- For UNIT/MODULE class CI rules, read `asset/docs/op/unit-module-authoring.md` and `asset/docs/cicd/ci-file-layout.md`.
 - Commit messages should use approved prefixes such as:
   - `New:`
   - `Add:`
