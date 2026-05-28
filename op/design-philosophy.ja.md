@@ -74,6 +74,29 @@ framework は PHP runtime level では例外の捕捉をサポートしていま
 
 この好みは抽象的な理論だけではなく、苦い経験にも根ざしています。
 
+## メモリー使用量に関する好み
+
+framework は、memory usage を低く抑えることを、実装後の optimization task ではなく development guideline として扱います。
+
+通常の成功 request path では、rare condition でだけ必要になる code、data、helper を読み込まないようにします。
+
+例:
+
+- recovery guidance
+- diagnostics
+- maintenance helper
+- 大きな optional helper class
+- error-only processing
+- environment investigation logic
+
+そのような logic が必要な場合は、focused file または class に分離し、それが本当に必要になった条件が発生した後にだけ lazy-load します。
+
+これにより、common path を小さく保ち、小さな server、shared hosting、long-running process、high-traffic application でも practical な framework にできます。
+
+目標は、memory saving のために code を分かりにくくすることではありません。
+
+目標は、現在の request が本当に必要とする処理に比例した memory use に保つことです。
+
 ## 意味
 
 この思想は、framework が大きくなっても practical でいられる理由のひとつです。

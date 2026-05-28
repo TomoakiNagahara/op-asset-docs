@@ -74,6 +74,29 @@ Careful error handling is often more helpful for the side that uses the code tha
 
 This preference is also rooted in bitter past experience, not only in abstract theory.
 
+## Memory Usage Preference
+
+The framework treats low memory usage as a development guideline, not only as an optimization task after implementation.
+
+Normal successful request paths should avoid loading code, data, or helpers that are needed only in rare conditions.
+
+Examples include:
+
+- recovery guidance
+- diagnostics
+- maintenance helpers
+- large optional helper classes
+- error-only processing
+- environment investigation logic
+
+When such logic is necessary, keep it in a focused file or class and load it lazily only after the condition that needs it has actually occurred.
+
+This keeps the common path small and makes the framework more practical on small servers, shared hosting, long-running processes, and high-traffic applications.
+
+The goal is not to make code obscure for the sake of saving memory.
+
+The goal is to keep memory use proportional to the work the current request actually needs.
+
 ## Meaning
 
 This philosophy is one of the reasons the framework can remain practical even when it grows.
