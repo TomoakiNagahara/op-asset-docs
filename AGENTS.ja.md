@@ -45,7 +45,7 @@ request lifecycle の詳細は `asset/docs/skeleton/runtime-lifecycle.ja.md` と
 
 ## Coding Rules
 
-- public-name spelling check、comment、config readability、debugging を含む framework-wide coding rule は `asset/docs/op/coding-rules.ja.md` を読む。
+- public-name spelling check、method closing comment、singleton local static variable、config readability、debugging を含む framework-wide coding rule は `asset/docs/op/coding-rules.ja.md` を読む。
 - documentation は clear and concise に保つ。
 - normal request path の memory を軽く保つ。詳細は `asset/docs/op/design-philosophy.ja.md` と `asset/docs/op/common-recipes.ja.md` を参照する。
 - CDN、proxy、cloud、vendor の IP range など、外部で管理される変動 data を黙って hardcode しない。公開情報であっても時間とともに変わり、更新負荷と運用リスクを生むため、そのような logic を追加する前に user に確認するか、application code の外で保守される既存の trusted source を使う。

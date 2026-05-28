@@ -45,7 +45,7 @@ For request lifecycle details, read `asset/docs/skeleton/runtime-lifecycle.md` a
 
 ## Coding Rules
 
-- For framework-wide coding rules, including public-name spelling checks, comments, config readability, and debugging, read `asset/docs/op/coding-rules.md`.
+- For framework-wide coding rules, including public-name spelling checks, method closing comments, singleton local static variables, config readability, and debugging, read `asset/docs/op/coding-rules.md`.
 - Keep documentation clear and concise.
 - Keep normal request paths memory-light; see `asset/docs/op/design-philosophy.md` and `asset/docs/op/common-recipes.md`.
 - Do not silently hardcode externally maintained data such as CDN, proxy, cloud, or vendor IP ranges. Even if the data is public, it can change over time and creates update burden and operational risk; ask the user before adding such logic, or use an existing trusted source maintained outside application code.
