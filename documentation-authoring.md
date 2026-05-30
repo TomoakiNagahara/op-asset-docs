@@ -122,13 +122,14 @@ ONEPIECE Framework is intended for developers around the world, so do not treat 
 
 - `dictation.ja.md`: original dictation from Japanese-speaking users
 - `dictation.<language>.md`: original dictation from speakers of other languages
-- `dictation.md`: agent-facing summaries and cross-language guidance derived from the language-specific dictation files
+- `dictation.md`: agent-facing summaries, cross-language notes, work notes, and memory aids derived from the language-specific dictation files
 
 Use ASCII English file names.
 The language suffix must also be ASCII, such as `dictation.en.md`, `dictation.fr.md`, or `dictation.zh.md`.
 
 `dictation.*.md` files preserve the user's original instruction context and may be written in the speaker's language.
-`dictation.md` should be understandable to AI agents and should summarize the operational guidance without replacing the original language-specific record.
+`dictation.md` should be understandable to AI agents and should summarize useful operational notes without replacing the original language-specific record.
+It is not required reading for ordinary tasks; agents should consult it only when prior oral-instruction context matters or when the user asks to preserve or check dictation.
 
 When a dictation note becomes a stable rule, move or summarize the durable rule into the responsible canonical document and keep `AGENTS.md` as a thin pointer only.
 
