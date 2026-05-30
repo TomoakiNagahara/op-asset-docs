@@ -8,9 +8,16 @@ It is intentionally focused on implementation discipline.
 For deciding whether behavior belongs in a UNIT or MODULE, see `asset/docs/op/unit-module-boundary.md`.
 For framework-wide coding rules such as public-name spelling checks, see `asset/docs/op/coding-rules.md`.
 
-## Required Reading
+## Reading Scope
 
-Before coding a UNIT or MODULE, read these documents:
+Keep documentation lookup proportional to the task.
+
+For small edits to an existing UNIT or MODULE, first read:
+
+- the owner docs near the file being changed
+- only the referenced framework docs needed to resolve the specific question
+
+For new UNIT/MODULE creation, major restructuring, CI layout work, namespace placement, or memory/loading design, read:
 
 - `asset/docs/op/unit-module-authoring.md`
 - `asset/docs/op/coding-rules.md`
@@ -18,8 +25,12 @@ Before coding a UNIT or MODULE, read these documents:
 - `asset/docs/op/common-recipes.md`
 - `asset/docs/op/design-philosophy.md`
 
-Also read the responsible dictation files before working.
-User dictation is split by speaker language, such as `asset/docs/dictation.ja.md` or `asset/docs/dictation.en.md`, and agent-facing guidance is summarized in `asset/docs/dictation.md`.
+Dictation files are work notes and memory aids, not required reading.
+Consult them only when the current task needs prior oral-instruction context or when the user explicitly asks you to preserve or check dictation.
+User dictation is split by speaker language, such as `asset/docs/dictation.ja.md` or `asset/docs/dictation.en.md`, and agent-facing notes may be summarized in `asset/docs/dictation.md`.
+
+Do not perform broad documentation searches by default.
+Expand the search only when the local owner docs are insufficient, the task crosses package boundaries, or the user asks for framework-wide policy.
 
 ## Full Inspection Principle
 
@@ -103,7 +114,12 @@ Keep UNIT and MODULE code small, direct, and memory-conscious.
 - Keep entry files thin; they should initialize, load the responsible class, and call the minimum package behavior.
 - Keep optional, diagnostic, recovery, maintenance, and error-only code out of normal request memory.
 - Return only the minimum value the caller needs. For example, do not build and return an array when the caller only needs success or failure.
-- Use framework APIs instead of raw PHP globals. For session state, use `OP()->Session()` instead of raw `$_SESSION`.
+- Use framework APIs instead of raw PHP globals.
+- For package-scoped UNIT/MODULE session state, use `OP_SESSION` and `self::Session()`.
+- Use `OP()->Session()` only when the shared `\OP\Session` facade wrapper is the intended storage scope.
+- Do not use raw `$_SESSION` unless there is an explicit reason to bypass framework-managed session namespacing.
+
+When working with session state, read `asset/core/trait/docs/op-session.md`.
 
 ## Path APIs
 

@@ -8,9 +8,16 @@
 behavior を UNIT と MODULE のどちらに置くかの判断は `asset/docs/op/unit-module-boundary.ja.md` を参照してください。
 public-name spelling check など framework-wide な coding rule は `asset/docs/op/coding-rules.ja.md` を参照してください。
 
-## 必ず読む文書
+## 読む範囲
 
-UNIT / MODULE を coding する前に、次の documents を読んでください。
+documentation lookup は、task の大きさに比例させます。
+
+既存 UNIT / MODULE への小さな修正では、まず次を読みます。
+
+- 変更対象 file の近くにある owner docs
+- specific question を解決するために必要な referenced framework docs だけ
+
+新規 UNIT / MODULE 作成、大きな再構成、CI layout、namespace placement、memory/loading design の場合は、次を読みます。
 
 - `asset/docs/op/unit-module-authoring.md`
 - `asset/docs/op/coding-rules.md`
@@ -18,8 +25,12 @@ UNIT / MODULE を coding する前に、次の documents を読んでくださ�
 - `asset/docs/op/common-recipes.md`
 - `asset/docs/op/design-philosophy.md`
 
-作業前には、責任範囲に対応する dictation files も読んでください。
-user dictation は話者の言語ごとに分け、例えば `asset/docs/dictation.ja.md` や `asset/docs/dictation.en.md` に保存し、agent-facing guidance は `asset/docs/dictation.md` にまとめます。
+dictation files は作業記録と備忘録であり、必読ではありません。
+current task が過去の口述 context を必要とする場合、または user が dictation の保存や確認を明示した場合だけ参照します。
+user dictation は話者の言語ごとに分け、例えば `asset/docs/dictation.ja.md` や `asset/docs/dictation.en.md` に保存し、agent-facing note は `asset/docs/dictation.md` にまとめることがあります。
+
+default で広範な documentation search をしてはいけません。
+local owner docs だけでは不足する場合、task が package boundary をまたぐ場合、または user が framework-wide policy を求めた場合だけ、探索範囲を広げます。
 
 ## 全数検査の原則
 
@@ -103,7 +114,12 @@ UNIT / MODULE code は、小さく、直接的で、memory-conscious に保ち�
 - entry file は薄く保ち、initialize、responsible class の load、minimum package behavior の呼び出しに留めます。
 - optional、diagnostic、recovery、maintenance、error-only code は normal request memory に載せません。
 - 戻り値は caller が必要とする最小限にします。caller が success / failure だけ必要なら、array を組み立てて返してはいけません。
-- raw PHP global ではなく framework API を使います。session state には raw `$_SESSION` ではなく `OP()->Session()` を使います。
+- raw PHP global ではなく framework API を使います。
+- UNIT / MODULE の package-scoped session state には、`OP_SESSION` と `self::Session()` を使います。
+- shared な `\OP\Session` facade wrapper が意図した storage scope である場合だけ、`OP()->Session()` を使います。
+- framework-managed session namespacing を bypass する明確な理由がない限り、raw `$_SESSION` を使いません。
+
+session state を扱う場合は、`asset/core/trait/docs/op-session.md` を読んでください。
 
 ## path API
 
