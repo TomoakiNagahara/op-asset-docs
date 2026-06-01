@@ -10,42 +10,41 @@ php asset/init/submodules.php
 
 file name は plural の `submodules.php` です。
 
-## 2 種類の submodule
+## Repository And Submodule Model
 
-初期化 workflow は、repository-managed part として次の 2 種類を扱います。
+ONEPIECE Framework の working tree では、ほとんどの file が広い意味での submodule package repository として install されます。
 
-1. Git-managed Git submodules
-2. `asset/config/submodule/**` で記述される non-Git-managed submodules
+skeleton repository 自体では、application/runtime package files のほとんどを直接 track しません。main repository が主に保持するのは、初期化を bootstrap するために必要な file、特に `asset/init/` と、どの package を install するかを示す configuration です。
 
-ONEPIECE Framework skeleton は、もともと Git-managed Git submodules だけを使っていました。
-その後、Git の `.gitmodules` mechanism で管理されない submodule も扱えるようになりました。
+current skeleton setup では、skeleton root の `.gitmodules` に Git-managed submodule はありません。
 
-`asset/init/update.php` は、その 2 つ目の category のために存在します。
+ただし、end user が skeleton 側に独自の Git-managed submodule を連結する可能性はあります。そのため、initialization code には Git-managed submodule handling の path が残っています。
+
+CORE、UNIT、MODULE、LAYOUT、bootstrap、template などの framework package areas は initialization によって install される submodule packages です。skeleton root では、これらは root `.gitmodules` ではなく `asset/config/submodule/**` で設定されます。
+
+install された package repository 自体が、さらに Git-managed nested submodules を持つ場合があります。`asset/core/` は意図的な例です。core package は class、interface、function、trait、include、ci、testcase、tutorial、docs などを Git-managed nested submodules として持ちます。
+
+`asset/init/update.php` は、`asset/config/submodule/**` 配下で設定された package repositories の main initializer/updater です。
 
 ## Flow
 
-`asset/init/submodules.php` は、まず Git-managed Git submodules を初期化します。
+`asset/init/submodules.php` は、main repository である OP Framework skeleton の最初の initializer です。
 
-たとえば次のような処理を行います。
+Skeleton repository を準備し、skeleton 側に存在し得る Git-managed submodule pass を扱い、`asset/init/update.php` を include し、`update.php` から戻った後で hooks を適用します。
 
-- Git hooks を設定する
-- `.gitmodules` に対して GitHub owner replacement を適用する
-- optional remote を追加する
-- `GitSubmoduleForeach()` により、recursive Git submodule update、branch checkout、hook setup、nested submodule handling を行う
+current file-level As-Is flow は `submodules.ja.md` を参照してください。
 
-その後、`asset/init/submodules.php` は次を include します。
+`asset/init/update.php` は、OP-managed package と、それらの package 内に存在する nested Git-managed submodules を含む configured package repository clone / update work を扱います。
 
-```php
-asset/init/update.php
-```
+current file-level As-Is flow は `update.ja.md` を参照してください。
 
-`asset/init/update.php` は、次の配下にある non-Git-managed submodule configuration files を扱います。
+configured package repository について、`update.php` は次の配下にある configuration files を読みます。
 
 ```text
 asset/config/submodule/*/*.php
 ```
 
-`update.php` を直接実行した場合は、`update.php` 自身が Git root を定義し、non-Git-managed submodule config を処理する前に `git submodule foreach git fetch --all` と `git submodule foreach git pull` を実行します。
+`update.php` を直接実行した場合は、`update.php` 自身が Git root を定義し、configured package repositories を処理する前に `git submodule foreach git fetch --all` と `git submodule foreach git pull` を実行します。default skeleton root では通常この Git-managed pass は空ですが、end user が root Git submodules を追加している場合には意味を持ちます。
 
 有効な config file ごとに、`update.php` は次を呼び出します。
 
@@ -58,15 +57,21 @@ truthy な `skip` を持つ config file は無視されます。
 
 ## 責務分担
 
-`submodules.php` は top-level initializer です。
+`submodules.php` は main skeleton repository の top-level initializer です。
 
-全体の initialization sequence を担当し、内部で `update.php` を呼び出します。
+skeleton initialization sequence を開始し、submodule initialization を継続するために内部で `update.php` を呼び出します。
 
-`update.php` は non-Git-managed submodules の initializer/updater です。
+`submodules.php` の call order と branch behavior は `submodules.ja.md` を参照してください。
 
-`Init()` は、設定された repository が存在しない場合に作成または clone します。設定された `url`、`path`、`branch` を使い、request value によって GitHub owner や clone URL scheme を変更する場合があります。また、hooks を設定し、clone した repository 内の nested Git submodules も初期化します。
+`update.php` は、`asset/config/submodule/**` に記述された configured package repositories の initializer/updater であり、それらの repository 内に Git-managed nested submodules が存在する場合はそれも update します。
 
-`Update()` は、init step の後で repository を update します。`Init()` が直前に repository を clone した場合、`Update()` は fetch/pull path を意図的に実行しません。既存 repository の場合は、`Request('remote', '--all')` を fetch し、`pull=0` でない限り configured remote と branch から pull します。また、`.gitmodules` が存在する場合は nested Git submodules も update します。
+`update.php` は `asset/init/function/Init.php` と `asset/init/function/Update.php` を load し、有効な configuration ごとに `Init()` と `Update()` を呼び出します。
+
+`update.php` の call order と branch behavior は `update.ja.md` を参照してください。
+
+`Init()` は、設定された repository が存在しない場合に作成または clone します。設定された `url`、`path`、`branch` を使い、request value によって GitHub owner や clone URL scheme を変更する場合があります。また、remote の追加、元の remote の別名保持、local remote の作成、hooks の設定を行い、clone した repository 内の nested Git submodules も初期化します。対象 directory がすでに存在する場合、`Init()` は init path を実行しません。
+
+`Update()` は、init step の後で repository を update します。`Init()` が直前に repository を clone した場合、`Update()` は fetch/pull path を意図的に実行しません。既存 repository の場合は、`Request('remote', '--all')` を fetch し、`pull=0` でない限り `git pull --rebase` で rebase します。また、`.gitmodules` が存在する場合は nested Git submodules も update します。
 
 `Dir()` は config type を target directory に変換します。`public_html` は Git root、`asset` は `asset/`、その他の type は `asset/<type>` に対応します。
 
@@ -90,7 +95,7 @@ truthy な `skip` を持つ config file は無視されます。
 
 skeleton の Git root 自体では、`git fetch` や `git pull` は実行されません。
 
-この gap は、skeleton がもともと Git-managed Git submodules だけを使っていたことに由来します。non-Git-managed submodule layer は後から追加され、その後から追加された layer の update 責務が `asset/init/update.php` に置かれました。その結果、`update.php` は framework packages の daily update command になりましたが、main skeleton repository まではまだ update しない状態になっています。
+この gap は、package update responsibility が `asset/init/update.php` に集約されている一方で、skeleton repository update はその command の外に残っていることに由来します。その結果、`update.php` は framework packages の daily update command になりましたが、main skeleton repository まではまだ update しない状態になっています。
 
 [DOC-FUTURE] 理想的には、`asset/init/update.php` だけで、skeleton repository 自体を含む working tree 全体の日常 update が完了するべきです。その model では、user が `update.php` の前後に別途 skeleton-level の `git pull` を覚えて実行する必要はありません。
 
@@ -102,4 +107,4 @@ skeleton の Git root 自体では、`git fetch` や `git pull` は実行され�
 php asset/init/submodules.php
 ```
 
-初期化後の日常的な package update では、`update.php` を直接実行することが有用です。現在の実装では、`update.php` は non-Git-managed config を処理する前に既存の Git-managed submodules を refresh しますが、skeleton repository 自体は別途 update する必要があります。
+初期化後の日常的な package update では、`update.php` を直接実行することが有用です。現在の実装では、`update.php` は configured package repositories を処理する前に current skeleton root から到達できる既存の Git-managed submodules を refresh しますが、skeleton repository 自体は別途 update する必要があります。
