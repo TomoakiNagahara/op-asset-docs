@@ -44,6 +44,22 @@ framework の不具合を発見した場合は、アプリケーション側に�
 7. application-specific feature なら、CORE や既存 framework UNIT には追加しない。dedicated UNIT または MODULE を作る。
 8. framework bug fix なら、責任を持つ framework package に pull request を出す。
 
+## Repository Ownership Model
+
+skeleton repository 自体が直接 track するのは、full working tree のうち小さな部分だけです。通常の setup では、framework files の多くは initialization によって package repository として install されます。
+
+directory が `asset/` 配下に見えるだけで、skeleton-owned だと判断しないでください。
+
+特に次の点に注意します。
+
+- `asset/init/` は、package install 前に initialization が存在する必要があるため、main skeleton-owned areas のひとつです。
+- `asset/config/submodule/**` は、initialization がどの package repository を install するかを示す skeleton-owned dependency map です。
+- `asset/core/`、`asset/unit/`、`asset/module/`、`asset/layout/`、`asset/bootstrap/`、`asset/template/` は、OP package の意味での submodule として install される framework package areas です。
+- `asset/core/` は、class、interface、function、trait、include、ci、testcase、tutorial、docs などの core parts を Git-managed nested submodules として意図的に持ちます。
+- skeleton root 自身の `.gitmodules` には現在 Git-managed submodules はありません。ただし end user が skeleton 側に独自の Git-managed submodules を連結する可能性はあります。
+
+この区別は、対象 file が skeleton repository、OP-managed package repository、nested Git-managed repository のどれに属するかを判断するために重要です。
+
 ## `asset/webpack/` の扱い
 
 `asset/webpack/js/` と `asset/webpack/css/` は、framework が用意する standard function / standard style の置き場です。

@@ -44,6 +44,22 @@ When you find a framework bug, prepare a pull request for the responsible packag
 7. If the change is an application-specific feature, do not add it to CORE or an existing framework UNIT. Create a dedicated UNIT or MODULE.
 8. If the change is a framework bug fix, make it as a pull request against the responsible framework package.
 
+## Repository Ownership Model
+
+The skeleton repository itself tracks only a small part of the full working tree directly. In normal setup, most framework files are installed as package repositories during initialization.
+
+Do not assume that a directory is skeleton-owned just because it appears under `asset/`.
+
+In particular:
+
+- `asset/init/` is one of the main skeleton-owned areas because initialization must exist before packages can be installed.
+- `asset/config/submodule/**` is the skeleton-owned dependency map that tells initialization which package repositories to install.
+- `asset/core/`, `asset/unit/`, `asset/module/`, `asset/layout/`, `asset/bootstrap/`, and `asset/template/` are framework package areas installed as submodules in the OP package sense.
+- `asset/core/` intentionally contains Git-managed nested submodules for core parts such as class, interface, function, trait, include, ci, testcase, tutorial, and docs.
+- The skeleton root currently has no Git-managed submodules in its own `.gitmodules`, although an end user may attach their own Git-managed submodules to the skeleton side.
+
+This distinction matters when deciding whether a file belongs to the skeleton repository, an OP-managed package repository, or a nested Git-managed repository.
+
 ## About `asset/webpack/`
 
 `asset/webpack/js/` and `asset/webpack/css/` contain framework-provided standard functions and standard styles.
