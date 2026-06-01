@@ -12,6 +12,8 @@
 
 - `$config['url']`
 
+target directory がすでに存在する場合、`Init()` は `false` を返し、clone や init path を実行しません。
+
 current の submodule config files では、通常次のような HTTPS GitHub URL を使います。
 
 ```text
@@ -41,6 +43,24 @@ https://github.com/example-account/op-core-8.git
 ```
 
 clone 後、元の `onepiece-framework` remote は `onepie` として保持されます。
+
+## Hooks And Remotes
+
+clone に成功した後、`Init()` は cloned repository に移動し、`GitHooks()` によって Git hooks を設定します。
+
+また、nested Git submodules を初期化し、repository helper behavior を適用します。
+
+- `GitSubmoduleGithub()` は `.gitmodules` から nested Git submodules を初期化できます。
+- `GitSubmoduleRepository()` は optional local / SSH remote を追加できます。
+- `local=1` が有効な場合、`GitInitLocal()` により local bare repository を作成できます。
+
+## Nested Submodule Hooks
+
+nested submodules の初期化後、`Init()` は `git submodule foreach pwd` によって nested submodule paths を取得します。
+
+各 nested submodule path について、その submodule directory に移動して `GitHooks()` を呼びます。これにより、initial clone path では `asset/core/class` や `asset/core/interface` のような nested Git-managed repositories にも `core.hooksPath` が初期化されます。
+
+この hook setup は initialization の一部です。target package directory がすでに存在する場合、`Init()` はこの path に入る前に return し、hooks を再適用しません。既存 repository は `Update()` が扱いますが、`Update()` は意図的に fetch/rebase work だけを行い、hook setup のような initialization は行いません。
 
 ## SSH clone scheme
 
@@ -99,4 +119,3 @@ request value は `asset/init/function/Request.php` を通して読み込まれ�
 - `asset/config/init.php`
 - `asset/config/_init.php`
 - `scheme=ssh` のような CLI argument
-
