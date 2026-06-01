@@ -14,6 +14,23 @@
  * どの `dictation.md` に残すべきかは、指示が最初に出た場所ではなく、責任範囲で判断する。
  * `AGENTS.md` は薄い導線に留め、詳細な判断基準は `asset/docs/documentation-authoring.md` に置く。
 
+## 2026-05-29 初期化 document 導線の整理
+
+ * 背景: agent が OP Framework の初期化処理について質問されたとき、必要な document を読み落としたり、逆に不要な document まで読んで context を増やしたりする問題があった。
+ * 目的: 人間が agent に質問した場合に、agent が適切な document だけを読み、不要な document を読まずに済むようにする。把握すべき情報量を抑え、回答の精度を上げる。
+ * README にある clone 後の最初の init から submodule clone までに関する質問では、`AGENTS.md` から `asset/docs/init/overview.md` などの関連 document へ辿れる導線を用意する。
+ * ただし導線は広く読みすぎないようにする。`submodules.php` の質問では control が渡るため `update.php` document が必要になる場合があるが、`update.php` の質問では caller relationship が直接関係しない限り `submodules.php` document を読む必要はない。
+ * `asset/init/submodules.php` は、main repository である OP Framework skeleton の初期化を行い、submodule initialization は `update.php` に引き継ぐ。
+ * `asset/init/update.php` は、Git-managed / non-Git-managed を含む submodules を clone / update し、remote の追加、original remote の別名保持、local remote の作成、hooks の設定などを行う。
+ * `asset/init/update.php` は、`asset/init/function/` directory の `Init.php` と `Update.php` を load し、`Init()` と `Update()` を行う。
+ * `Init()` 対象の directory が既に存在する場合は、Init 処理を行わない。
+ * `Update()` は、remote から fetch して rebase する。
+ * `asset/init/submodules.php` の As-Is document では、その file の call order と branch point に集中する。呼び出し先 file / function については、その呼び出し先で何が行われるかだけを簡潔に書き、内部詳細は専用 document への導線を引いて参照させる。
+ * `asset/init/update.php` についても同様に、file-level As-Is は call order と branch point に集中し、`Init()`、`Update()`、helper function の内部詳細はそれぞれの専用 document に分ける。
+ * ONEPIECE Framework では、ほとんどの file が submodule/package repository として分離されている。submodule 化されていない main repository の file は、初期化処理に必要な `asset/init/` などが中心である。
+ * skeleton root 側には現在 Git-managed submodules は無い。ただし end user が skeleton 側に独自の Git-managed submodule を連結する可能性はある。
+ * CORE、UNIT、MODULE、LAYOUT、bootstrap、template は submodule package である。`asset/core/` は意図的に Git-managed nested submodules を持つため、agent が skeleton-owned file と誤解しないようにする。
+
 ## コーディングルール
 
  * method の閉じかっこには、常に method name を comment として追加する。例: `} // Bar`
