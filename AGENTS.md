@@ -36,6 +36,19 @@ Use `asset/docs/CUSTOMIZATION_MAP.md` for:
 
 For request lifecycle details, read `asset/docs/skeleton/runtime-lifecycle.md` and `asset/docs/CUSTOMIZATION_MAP.md`.
 
+## Initialization And Submodules
+
+For questions about the README quick-start initialization flow, read `asset/docs/init/overview.md` first, then follow only the documents needed for the file or function being discussed.
+
+Use the narrowest relevant route:
+
+- For `asset/init/submodules.php`, read `asset/docs/init/submodules.md`; if the question reaches `update.php`, then read `asset/docs/init/update.md`.
+- For `asset/init/update.php`, read `asset/docs/init/update.md`; do not read `submodules.md` unless the question is about how `submodules.php` calls it.
+- For `Init()` or `Update()`, read `asset/docs/init/function/init.md` or `asset/docs/init/function/update.md` respectively.
+- For helper functions under `asset/init/function/`, read the matching function-level document under `asset/docs/init/function/`.
+
+For Git hooks and CI behavior during initialization or submodule work, read `asset/docs/cicd/hooks.md` and `asset/docs/cicd/git/rules.md`.
+
 ## ONEPIECE Framework Rules
 
 - For pass-through behavior, read `asset/docs/new-world/html-pass-through.md`.

@@ -36,6 +36,19 @@ customization boundary、safe change pattern、framework-core ownership rule を
 
 request lifecycle の詳細は `asset/docs/skeleton/runtime-lifecycle.ja.md` と `asset/docs/CUSTOMIZATION_MAP.ja.md` を読んでください。
 
+## Initialization And Submodules
+
+README の quick-start initialization flow に関する質問では、まず `asset/docs/init/overview.ja.md` を読み、その後は話題になっている file または function に必要な document だけを辿ってください。
+
+最小の関連 route を使ってください。
+
+- `asset/init/submodules.php` については `asset/docs/init/submodules.ja.md` を読む。質問が `update.php` に到達する場合だけ `asset/docs/init/update.ja.md` も読む。
+- `asset/init/update.php` については `asset/docs/init/update.ja.md` を読む。`submodules.php` がどう呼ぶかの質問でなければ `submodules.ja.md` は読まない。
+- `Init()` または `Update()` については、それぞれ `asset/docs/init/function/init.ja.md` または `asset/docs/init/function/update.ja.md` を読む。
+- `asset/init/function/` 配下の helper function については、`asset/docs/init/function/` 配下の対応する function-level document を読む。
+
+initialization や submodule 作業中の Git hooks / CI behavior は `asset/docs/cicd/hooks.ja.md` と `asset/docs/cicd/git/rules.ja.md` を読んでください。
+
 ## ONEPIECE Framework Rules
 
 - pass-through behavior は `asset/docs/new-world/html-pass-through.ja.md` を読む。
