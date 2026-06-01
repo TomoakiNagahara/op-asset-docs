@@ -1,40 +1,67 @@
 # asset/docs
 
-この directory には、AI 向けに書かれた framework-level 文書を保存します。
+この directory には ONEPIECE Framework skeleton の documentation set を置いています。
 
-これらの文書の多くは AI が記述または加筆しているため、誤り、不足、意図と完全には一致しない表現が含まれる可能性があります。
+GitHub で `asset/docs/` を表示すると、この file が最初に表示されます。そのため、この README は human-facing な documentation index として使います。
 
-そのため、これらは有用な working document ではありますが、同時に人間による確認と修正を前提とした文書でもあります。
+AI agent は working entry point として `AGENTS.md` を使ってください。人間の読者は、この README を documentation area の地図として使えます。
 
-日本語訳は、英語の文書と同じ directory に置き、末尾を `.ja.md` にします。
+## Primary Entry Points
 
-重要な入口のひとつとして、次があります。
-
+- `AGENTS.md`
+  AI coding agent の working guide と routing entry point。
+- `CUSTOMIZATION_MAP.md`
+  safe customization point と framework-managed boundary。
+- `CODEX.md`
+  Codex CLI-specific workflow notes。
+- `documentation-authoring.md`
+  documentation の作成、移動、再構成の rule。
 - `important-gaps.md`
+  既知の gap、risk、current problem index。
 - `to-be.md`
+  future direction と intended improvements。
 
-## As-Is と To-Be について
+framework-level document の Japanese translation は English file の隣に置き、suffix は次を使います。
 
-As-Is と To-Be は、同じ場所に無造作に混ぜるべきではありません。
+- `.ja.md`
 
-実務上の方針は次です。
+## Topic Areas
 
-- 各 technical document は基本的に As-Is を主題にする
-- 必要なら各文書に短い `[DOC-FUTURE]` note は残してよい
-- ただし、より広い将来方針は `to-be.md` にも集約する
+- `init/`
+  initialization、submodule setup、update flow、related helper functions。
+- `cicd/`
+  CI/CD concepts、Git hooks、push checks、Git operation rules。
+- `skeleton/`
+  skeleton runtime lifecycle、entry point behavior、public roots、template placement。
+- `op/`
+  framework-wide design intent、coding rules、common recipes、responsibility boundaries。
+- `core/`
+  core package concepts と package-owned behavior notes。
+- `unit/` and `module/`
+  Unit / Module system documentation。
+- `new-world/`
+  HTML pass-through と NEW WORLD design background。
+- `httpd/`
+  web-server-related documentation。
 
-理由は、As-Is と To-Be が答える問いが違うからです。
+## About As-Is and To-Be
 
-- As-Is: 今どうなっているか
-- To-Be: 将来どうあるべきか
+As-Is と To-Be は不用意に同じ場所へ混ぜないでください。
 
-To-Be 文書を別に持つことで、人間にも AI にも次が分かりやすくなります。
+実用上の guideline は次です。
 
-- 何が既に真なのか
-- 何がまだ計画段階なのか
-- 何が current の bug や gap なのか
-- 何が将来の設計方針なのか
+- local technical documents は主に As-Is を説明する
+- local documents でも必要な場合は短い `[DOC-FUTURE]` note を残してよい
+- broader future direction は `to-be.md` にも集める
 
-主な目的は、人間の利用者が英語の canonical document の内容を確認し、意味や意図の齟齬を早く見つけられるようにすることです。
+理由は、As-Is と To-Be が別の質問に答えるものだからです。
 
-これらの文書は一般的な製品紹介よりも、AI が判断に使う英語文書を人間が検証するための補助として位置付けられます。
+- As-Is: framework が現在何をするか
+- To-Be: framework が将来どうあるべきか
+
+To-Be document を分けておくことで、人間と AI の両方が次を区別しやすくなります。
+
+- すでに true なこと
+- planned にすぎないこと
+- current bug または gap
+- future design direction

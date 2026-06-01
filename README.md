@@ -1,21 +1,48 @@
 # asset/docs
 
-This repository contains documentation written for AI-oriented consumption.
+This directory contains the documentation set for the ONEPIECE Framework skeleton.
 
-The documents in this repository are intended to help AI agents understand the design, behavior, workflow, and operational rules of the ONEPIECE Framework and related repositories.
+GitHub displays this file when browsing `asset/docs/`, so this README is a human-facing index for finding the right document.
 
-Because many of these documents are written or expanded by AI, they may still contain mistakes, gaps, or wording that does not perfectly match the intended framework design.
+AI agents should use `AGENTS.md` as their working entry point. Human readers can use this README as a map of the documentation area.
 
-They should be treated as useful working documents, but also as documents that may require human review and correction.
+## Primary Entry Points
+
+- `AGENTS.md`
+  Working guide and routing entry point for AI coding agents.
+- `CUSTOMIZATION_MAP.md`
+  Safe customization points and framework-managed boundaries.
+- `CODEX.md`
+  Codex CLI-specific workflow notes.
+- `documentation-authoring.md`
+  Rules for creating, moving, and restructuring documentation.
+- `important-gaps.md`
+  Known gaps, risks, and current problem indexes.
+- `to-be.md`
+  Future direction and intended improvements.
 
 Japanese translations of framework-level documents are stored next to the English file and use the suffix:
 
 - `.ja.md`
 
-Useful entry points include:
+## Topic Areas
 
-- `important-gaps.md`
-- `to-be.md`
+- `init/`
+  Initialization, submodule setup, update flow, and related helper functions.
+- `cicd/`
+  CI/CD concepts, Git hooks, push checks, and Git operation rules.
+- `skeleton/`
+  Skeleton runtime lifecycle, entry point behavior, public roots, and template placement.
+- `op/`
+  Framework-wide design intent, coding rules, common recipes, and responsibility boundaries.
+- `core/`
+  Core package concepts and package-owned behavior notes.
+- `unit/` and `module/`
+  Unit and module system documentation.
+- `new-world/`
+  HTML pass-through and NEW WORLD design background.
+- `httpd/`
+  Web-server-related documentation.
 
 ## About As-Is and To-Be
 
