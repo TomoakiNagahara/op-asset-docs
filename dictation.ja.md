@@ -31,6 +31,10 @@
  * skeleton root 側には現在 Git-managed submodules は無い。ただし end user が skeleton 側に独自の Git-managed submodule を連結する可能性はある。
  * CORE、UNIT、MODULE、LAYOUT、bootstrap、template は submodule package である。`asset/core/` は意図的に Git-managed nested submodules を持つため、agent が skeleton-owned file と誤解しないようにする。
 
+## 2026-06-05 documentation file name の category-first rule
+
+ * user 指示: 「ファイル名は、ci-logout-form-clear.md にして下さい。理由は、ciのトラブルなので、ciが先に来るべきです。そうしておくと、ファイルソートでci関連のトラブルだけがまとまり、人間にとって探しやすいからです。これは、ドキュメントを作成する上でのルールにして欲しいです。ルールは、CIだからという狭いルールではなく、人間がファイルソートした時に、あるカテゴリー順に探しやすくするために、ファイル名の付け方を工夫して欲しいというルールです。」
+
 ## コーディングルール
 
  * method の閉じかっこには、常に method name を comment として追加する。例: `} // Bar`
