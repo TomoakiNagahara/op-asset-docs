@@ -70,6 +70,20 @@ file-level commit は rebase や cherry-pick の conflict を大きく減らす�
 feature file を追加、変更、削除する場合、その feature file と同時に commit されやすい別 file は related CI test と same-named documentation です。
 documentation file name を class file や function file と対応させることで、commit unit を明確に保ちます。
 
+## sort しやすい file name
+
+documentation file name は、人間が通常の file sort で関連 document を探しやすいように決めます。
+
+document が認識しやすい category に属する場合は、その category term を file name の先頭付近に置きます。これにより、directory listing を sort したときに related documents がまとまります。
+
+例:
+
+- CI 関連の作業記録は、`logout-form-clear-ci.md` ではなく `ci-logout-form-clear.md` のような名前にする。
+- Git 操作が primary category の作業記録は、`git-` で始める。
+- Template behavior が primary category の作業記録は、`template-` で始める。
+
+これは CI に限定した rule ではありません。人間が scan しやすいようにするための一般的な naming rule です。まず人間が探すときに使う category を先頭に置き、その後に specific subject を続けます。
+
 ## As-Is / To-Be / gap
 
 current As-Is behavior を document 化する場合、authoritative detail は、その behavior を決めている code owner の近くに置きます。

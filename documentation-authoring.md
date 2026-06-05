@@ -70,6 +70,20 @@ Keep separated-file documentation split by file name because file-level commits 
 When adding, changing, or deleting a feature file, the related CI test and same-named documentation are the other files most likely to be committed with it.
 Matching documentation file names to class or function file names keeps that commit unit clear.
 
+## Sort-Friendly File Names
+
+Choose documentation file names so that humans can find related documents by ordinary file sorting.
+
+When a document belongs to a recognizable category, put the category term near the beginning of the file name. This groups related documents together in sorted directory listings.
+
+Examples:
+
+- CI-related work notes should use names such as `ci-logout-form-clear.md`, not `logout-form-clear-ci.md`.
+- Git-related work notes should start with `git-` when the Git operation is the primary category.
+- Template-related work notes should start with `template-` when template behavior is the primary category.
+
+This is not a CI-only rule. It is a general naming rule for human scanability: choose the filename word order from the category a person is likely to browse first, then add the specific subject.
+
 ## As-Is / To-Be / Gap
 
 When documenting current As-Is behavior, place the authoritative details beside the code owner that determines the behavior.
