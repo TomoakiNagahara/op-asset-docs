@@ -121,6 +121,23 @@ CI 実行前に、`op-unit-ci` は repository 群に対して自動的に `git s
 
 この dry-run 挙動は、`unit=...` を使った場合にも自動的に適用されます。
 
+## Codex sandbox での調査
+
+[DOC-RISK]
+
+agent が Codex sandbox から `./cicd` を調査する場合、full command result は常に authoritative とは限りません。
+
+sandbox では、framework が本来の application / package failure に到達する前に、環境要因によって結果が変わることがあります。既知の例は次です。
+
+- CI pre-step が repository state を stash / stage しようとした時に Git index 書き込みが失敗する
+- sandbox が configured sendmail path を実行できず、local mail check が失敗する
+
+これらは sandbox environment artifact であり、必ずしも framework regression ではありません。
+
+GitHub Actions failure の調査では、GitHub Actions log を authoritative な failure source として扱います。local の `./cicd` run は、PHP version、`GITHUB_ACTIONS=true`、focused `unit=...` / `class=...` / `method=...` option など、関連する環境条件をできるだけ合わせたうえで、specific failing condition を再現するために使います。
+
+user が sandbox failure 自体を質問している場合を除き、sandbox-only の `index.lock`、stash、sendmail failure の説明に繰り返し context を使わないでください。
+
 ## 運用上の意味
 
 実務上の違いは次です。

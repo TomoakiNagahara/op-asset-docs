@@ -121,6 +121,23 @@ In that mode:
 
 The same dry-run behavior is also entered automatically when `unit=...` is used.
 
+## Codex Sandbox Investigation
+
+[DOC-RISK]
+
+When an agent investigates `./cicd` from the Codex sandbox, the full command result is not always authoritative.
+
+The sandbox can change the result before the framework reaches the actual application or package failure. Known examples include:
+
+- Git index writes failing when the CI pre-step tries to stash or stage repository state
+- local mail checks failing because the sandbox cannot execute the configured sendmail path
+
+These are sandbox environment artifacts, not necessarily framework regressions.
+
+For GitHub Actions failures, agents should treat the GitHub Actions log as the authoritative failure source. Use local `./cicd` runs only to reproduce the specific failing condition after matching the relevant environment as closely as possible, for example PHP version, `GITHUB_ACTIONS=true`, and focused `unit=...` / `class=...` / `method=...` options.
+
+Do not spend investigation context repeatedly explaining sandbox-only `index.lock`, stash, or sendmail failures unless the user is specifically asking about those sandbox failures.
+
 ## Operational Meaning
 
 The practical distinction is:
