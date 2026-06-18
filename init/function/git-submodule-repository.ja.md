@@ -16,6 +16,33 @@ local bare repository creation と local remote registration は `GitInitLocal()
 
 `git-init-local.ja.md` を参照してください。
 
+## Repository Path Conversion
+
+`origin` から取り出した repository name は、`dir` 配下の relative path として使われます。
+
+path separator の変換は、次の request value で明示的に選択します。
+
+- `dot2slash=1` は `.` を `/` に変換します。
+- `hyphen2slash=1` は `-` を `/` に変換します。
+
+option が有効でない場合、その文字は維持されます。default では、どちらの変換も行いません。
+
+末尾の `.git` suffix は変換対象から除外され、`.git` のまま維持されます。
+
+たとえば、両方の option を有効にした場合:
+
+```text
+www.example.com-2030.git
+```
+
+は次になります。
+
+```text
+www/example/com/2030.git
+```
+
+変換後の relative path は、local remote と SSH remote の生成で共通して使われます。これにより両 remote の repository path を同じに保ちながら、separator policy は user が選択できます。
+
 ## SSH Remote
 
 `ssh=1` の場合、この function は次から SSH remote URL を組み立てます。
