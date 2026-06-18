@@ -6,6 +6,8 @@ ONEPIECE Framework では、Git の運用ルールのいくつかを hook と関
 
 これらのルールは、commit message、CI/CD の状態、repository 間の整合性を保つためのものです。
 
+変更種別を表す commit message prefix の意味と使い分けは、`asset/docs/git/commit-message-prefix.ja.md` を参照してください。
+
 ## rebase のルール
 
 ### コミットメッセージ prefix のチェック

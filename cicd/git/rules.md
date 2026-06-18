@@ -6,6 +6,8 @@ The ONEPIECE Framework applies several Git operation rules through hooks and rel
 
 These rules are intended to keep commit history, CI/CD state, and repository compatibility under control.
 
+For the meanings and selection of change-type commit message prefixes, see `asset/docs/git/commit-message-prefix.md`.
+
 ## Rebase Rules
 
 ### Commit Message Prefix Check
