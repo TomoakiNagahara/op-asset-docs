@@ -22,6 +22,7 @@ Put detailed rules in the document that owns that responsibility.
 - CORE topics: `asset/docs/core/` or owner package docs
 - UNIT topics: `asset/docs/unit/` or `asset/unit/<unit>/docs/`
 - MODULE topics: `asset/docs/module/` or `asset/module/<module>/docs/`
+- general Git operation topics: `asset/docs/git/`
 - CI/CD topics: `asset/docs/cicd/`
 - skeleton topics: `asset/docs/skeleton/`
 - web-server topics: `asset/docs/httpd/`
@@ -109,6 +110,8 @@ Gap indexes should point to the As-Is owner rather than becoming the detailed ow
 Choose the documentation location from the responsibility scope.
 
 - web-server-related documents: `asset/docs/httpd/`
+- general Git operation documents unrelated to CI/CD: `asset/docs/git/`
+- Git documents about CI/CD integration, hooks, and push gates: `asset/docs/cicd/git/`
 - framework-level CI/CD philosophy, history, background, and operating-model documents: `asset/docs/cicd/`
 - Unit system philosophy, history, and background: `asset/docs/unit/`
 - Module system philosophy, history, and background: `asset/docs/module/`

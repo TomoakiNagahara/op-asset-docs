@@ -22,6 +22,7 @@ agent は documentation を作成する前に、この document を参照して�
 - CORE に関する内容: `asset/docs/core/` または owner package の docs
 - UNIT に関する内容: `asset/docs/unit/`、`asset/unit/<unit>/docs/`
 - MODULE に関する内容: `asset/docs/module/`、`asset/module/<module>/docs/`
+- CI/CD に関連しない一般的な Git 運用: `asset/docs/git/`
 - CI/CD に関する内容: `asset/docs/cicd/`
 - skeleton に関する内容: `asset/docs/skeleton/`
 - web server に関する内容: `asset/docs/httpd/`
@@ -109,6 +110,8 @@ gap index は詳細な owner にならず、As-Is owner を指します。
 document の置き場所は責任範囲で決めます。
 
 - web-server-related document: `asset/docs/httpd/`
+- CI/CD に関連しない一般的な Git 運用 document: `asset/docs/git/`
+- CI/CD integration、hook、push gate に関する Git document: `asset/docs/cicd/git/`
 - framework-level CI/CD philosophy、history、background、operating-model document: `asset/docs/cicd/`
 - Unit system 自体の philosophy、history、background: `asset/docs/unit/`
 - Module system 自体の philosophy、history、background: `asset/docs/module/`
