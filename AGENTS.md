@@ -80,13 +80,7 @@ For Git hooks and CI behavior during initialization or submodule work, read `ass
 - Prefer the `cicd` command when available.
 - Do not bypass Git hooks unless explicitly requested.
 - For UNIT/MODULE class CI rules, read `asset/docs/op/unit-module-authoring.md` and `asset/docs/cicd/ci-file-layout.md`.
-- Commit messages should use approved prefixes such as:
-  - `New:`
-  - `Add:`
-  - `Chg:`
-  - `Fix:`
-  - `Doc:`
-  - `Del:`
+- For commit message prefixes and their meanings, read `asset/docs/git/commit-message-prefix.md`.
 
 ## Verification
 

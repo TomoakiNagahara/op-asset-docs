@@ -80,13 +80,7 @@ initialization や submodule 作業中の Git hooks / CI behavior は `asset/doc
 - 利用可能な場合は `cicd` command を優先する。
 - 明示的に依頼されていない限り、Git hook を bypass しない。
 - UNIT / MODULE class CI rule は `asset/docs/op/unit-module-authoring.ja.md` と `asset/docs/cicd/ci-file-layout.ja.md` を読む。
-- commit message には、次のような approved prefix を使う:
-  - `New:`
-  - `Add:`
-  - `Chg:`
-  - `Fix:`
-  - `Doc:`
-  - `Del:`
+- commit message prefix とその意味は `asset/docs/git/commit-message-prefix.ja.md` を読む。
 
 ## Verification
 
