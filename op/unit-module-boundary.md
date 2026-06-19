@@ -52,6 +52,8 @@ Examples of UNIT-style responsibilities:
 
 If a feature is useful because many other features need to call it, it is probably a UNIT.
 
+For a compact list of UNIT packages and the DATABASE / FORM / ORM usage rule for agents, see `../unit/available-units.md`.
+
 ## Call Style And Developer Center Of Gravity
 
 UNITs sit closer to the framework and CORE developer side.

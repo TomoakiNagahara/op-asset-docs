@@ -52,6 +52,8 @@ UNIT 的な責務の例:
 
 多くの他 feature が呼び出す必要があるために有用な feature なら、おそらく UNIT です。
 
+UNIT package の簡潔な一覧と、agent 向けの DATABASE / FORM / ORM 利用 rule は `../unit/available-units.ja.md` を参照します。
+
 ## 呼び出し方と開発者側の重心
 
 UNIT は、framework や CORE developer 側に近い位置にあります。
