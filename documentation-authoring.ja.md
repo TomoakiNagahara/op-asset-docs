@@ -105,6 +105,48 @@ documentation path は、最初にその話題が見つかった page ではな�
 intended specification、current As-Is behavior、curated gap index は分離して保ちます。
 gap index は詳細な owner にならず、As-Is owner を指します。
 
+## usage、current specification、troubleshooting
+
+CORE feature、UNIT package、MODULE package、その他の reusable framework behavior について agent-facing documentation を作成する場合、通常の使い方と source-level の current specification を分けます。
+
+目的は agent の context 使用量を減らすことです。
+
+task intent ごとに document を分けます。
+
+- `usage.md`
+  feature を使うだけの agent 向けの短い operational guidance。
+- `current-spec.md`
+  troubleshooting、behavior investigation、refactoring、behavior change のための source-derived As-Is behavior。
+- `troubleshooting.md`
+  common failure、known symptom、fast diagnosis path のための optional な focused guidance。
+
+日本語 documentation を追加する場合は、それぞれ隣に `.ja.md` translation を置きます。
+
+`usage.md` は小さく保ち、normal use に必要な情報だけを含めます。
+
+- feature の呼び出し方
+- 最小限の有用な configuration または code example
+- よく使う public method または entry point
+- 重要な responsibility boundary
+- deeper document への link
+
+`usage.md` には、`current-spec.md` の source-level internals を重複して書きません。
+
+`current-spec.md` は、次の task で読みます。
+
+- source-code troubleshooting
+- refactoring
+- behavior change
+- edge-case behavior
+- lifecycle、state、cache、token、session、storage、request-flow details
+- source から current As-Is behavior を確認する作業
+
+feature に両方の document がある場合、agent-facing entry point はまず `usage.md` へ link します。
+source-level detail が本当に必要な task の場合だけ、agent を `current-spec.md` へ誘導します。
+
+例えば、UNIT を使う agent はその UNIT の `usage.md` を読みます。
+その UNIT を debug または refactoring する agent は、その UNIT の `current-spec.md` を読みます。
+
 ## placement
 
 document の置き場所は責任範囲で決めます。

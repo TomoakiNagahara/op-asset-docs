@@ -105,6 +105,48 @@ Choose documentation paths from the code owner and responsibility boundary, not 
 Keep intended specification, current As-Is behavior, and curated gap indexes separated.
 Gap indexes should point to the As-Is owner rather than becoming the detailed owner themselves.
 
+## Usage, Current Specification, And Troubleshooting
+
+When creating agent-facing documentation for CORE features, UNIT packages, MODULE packages, or other reusable framework behavior, separate ordinary usage from source-level current specification.
+
+The purpose is to reduce agent context usage.
+
+Use separate documents by task intent:
+
+- `usage.md`
+  Short operational guidance for agents that only need to use the feature.
+- `current-spec.md`
+  Source-derived As-Is behavior for troubleshooting, behavior investigation, refactoring, or behavior changes.
+- `troubleshooting.md`
+  Optional focused guidance for common failures, known symptoms, and fast diagnosis paths.
+
+Add matching `.ja.md` translations beside those files when adding Japanese documentation.
+
+`usage.md` should stay small and should include only what an agent needs for normal use:
+
+- how to call the feature
+- the smallest useful configuration or code example
+- common public methods or entry points
+- important responsibility boundaries
+- links to deeper documents
+
+`usage.md` should not duplicate source-level internals from `current-spec.md`.
+
+`current-spec.md` should be read when the task involves:
+
+- source-code troubleshooting
+- refactoring
+- behavior changes
+- edge-case behavior
+- lifecycle, state, cache, token, session, storage, or request-flow details
+- confirming current As-Is behavior from source
+
+If a feature has both documents, agent-facing entry points should link to `usage.md` first.
+Only direct agents to `current-spec.md` when the task actually needs source-level detail.
+
+For example, an agent using a UNIT should read that UNIT's `usage.md`.
+An agent debugging or refactoring that UNIT should read that UNIT's `current-spec.md`.
+
 ## Placement
 
 Choose the documentation location from the responsibility scope.
