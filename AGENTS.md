@@ -64,6 +64,7 @@ For Git hooks and CI behavior during initialization or submodule work, read `ass
 - Do not silently hardcode externally maintained data such as CDN, proxy, cloud, or vendor IP ranges. Even if the data is public, it can change over time and creates update burden and operational risk; ask the user before adding such logic, or use an existing trusted source maintained outside application code.
 - Before adding or changing JavaScript or CSS, follow `asset/docs/op/frontend-asset-authoring.md`; WebPack-managed JavaScript files should keep file-local code inside a closure.
 - Prefer framework APIs over raw PHP superglobals.
+- For DATABASE, FORM, ORM, SQL, validation, and other UNIT-backed work, use the responsible UNIT; see `asset/docs/unit/available-units.md`.
 - For UNIT/MODULE creation or restructuring, including namespace placement, CI visibility, lazy loading, and path rules, read `asset/docs/op/unit-module-authoring.md`.
 - Do not use raw `$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_SESSION`, or `$_SERVER` unless explicitly necessary.
 - Use `OP()->Request()` where appropriate.
@@ -71,6 +72,7 @@ For Git hooks and CI behavior during initialization or submodule work, read `ass
 ## Documentation Rules
 
 - Before creating, moving, or restructuring documentation, read `asset/docs/documentation-authoring.md`.
+- For agent-facing feature docs, keep usage separate from source-derived current specs to save context; follow `asset/docs/documentation-authoring.md`.
 - When the user gives oral or chat instructions that should be preserved, record the original text in the responsible language-specific dictation file such as `dictation.ja.md`, and keep agent-facing guidance in `dictation.md`; use `asset/docs/documentation-authoring.md` to decide whether the framework, UNIT, or MODULE owns that note.
 - Keep `AGENTS.md` as a thin routing guide. Put framework-wide, CORE, UNIT, MODULE, CI/CD, and documentation-specific rules in their responsible documents and link to them from here only when needed.
 

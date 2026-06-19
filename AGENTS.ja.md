@@ -64,6 +64,7 @@ initialization や submodule 作業中の Git hooks / CI behavior は `asset/doc
 - CDN、proxy、cloud、vendor の IP range など、外部で管理される変動 data を黙って hardcode しない。公開情報であっても時間とともに変わり、更新負荷と運用リスクを生むため、そのような logic を追加する前に user に確認するか、application code の外で保守される既存の trusted source を使う。
 - JavaScript または CSS を追加・変更する前に `asset/docs/op/frontend-asset-authoring.ja.md` に従う。WebPack-managed JavaScript file では file-local code を closure の中に閉じ込める。
 - raw PHP superglobal より framework API を優先する。
+- DATABASE、FORM、ORM、SQL、validation など UNIT が支える作業では、責任を持つ UNIT を使う。`asset/docs/unit/available-units.ja.md` を参照する。
 - UNIT / MODULE の作成または再構成では、namespace placement、CI visibility、lazy loading、path rule を含めて `asset/docs/op/unit-module-authoring.ja.md` を読む。
 - 明示的に必要でない限り、raw `$_GET`、`$_POST`、`$_REQUEST`、`$_COOKIE`、`$_SESSION`、`$_SERVER` を使わない。
 - 適切な場合は `OP()->Request()` を使う。
@@ -71,6 +72,7 @@ initialization や submodule 作業中の Git hooks / CI behavior は `asset/doc
 ## Documentation Rules
 
 - documentation を作成、移動、再構成する前に `asset/docs/documentation-authoring.ja.md` を読む。
+- agent-facing feature docs では context 節約のため、usage と source-derived current spec を分ける。`asset/docs/documentation-authoring.ja.md` に従う。
 - user が保存すべき口頭または chat の指示を出した場合は、original text を `dictation.ja.md` など責任範囲に対応する language-specific dictation file に記録し、agent-facing guidance は `dictation.md` に置く。framework、UNIT、MODULE のどこがその note を所有するかは `asset/docs/documentation-authoring.ja.md` で判断する。
 - `AGENTS.md` は薄い導線として保つ。framework-wide、CORE、UNIT、MODULE、CI/CD、documentation 固有の rule は、それぞれ責任を持つ document に置き、ここには必要な参照だけを置く。
 
