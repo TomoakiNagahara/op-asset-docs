@@ -46,3 +46,22 @@
  * agent の documentation lookup は task の大きさに比例させる。小さな修正では近傍 owner docs を先に読む。新規 UNIT / MODULE 作成、大きな再構成、CI layout、namespace placement、memory/loading design の場合は、`asset/docs/op/unit-module-authoring.md`、`asset/docs/op/coding-rules.md`、`asset/docs/cicd/ci-file-layout.md`、`asset/docs/op/common-recipes.md`、`asset/docs/op/design-philosophy.md` を読む。
  * UNIT / MODULE code では、無駄な class / method を増やさない。一箇所でしか呼ばれない method は、実際の benefit がない限り分けない。normal request memory を小さく保ち、entry file は薄くする。helper class は package subnamespace に隔離する。visible な `*.class.php` は CI target として扱う。CI file layout は class ごと、method ごとに分ける。戻り値は caller が必要とする最小限にする。package-scoped session state には `OP_SESSION` と `self::Session()` を使う。shared な `\OP\Session` facade wrapper が意図した storage scope の場合だけ `OP()->Session()` を使う。raw `$_SESSION` は避ける。docs は `AGENTS.md` に詰め込まず、責任範囲ごとの document に分ける。
  * `OP_SESSION` は `asset/core/trait/docs/op-session.md` と `asset/core/trait/docs/op-session.ja.md` に記録する。
+
+## 2026-06-01 UNIT 利用の案内
+
+ * ONEPIECEフレームワークには、データベース・フォーム・ORMといったユニットがあります。
+ * エージェント向けのドキュメントに記載して、エージェントが、フォーム・データベースアクセス・ORMを利用しようとした場合は、ユニットを使うように案内を残す。
+ * エージェント向けのドキュメントの入口に、DATABASE・FORM・ORMといったユニットがあるので、DATABASE・FORM・ORMなどを使う時は、ユニットを利用して下さいという案内を残して、どのようなユニットがあるかのドキュメントを作成し、エージェント向けのドキュメントの入口には、ユニット一覧への導線だけを記述して、エージェントのコンテキスト使用量を増やさないようにドキュメントをまとめる。
+ * これは、ONEPIECEフレームワークの、FORMユニットの説明です。
+ * 呼び出し方は、OP()->Unit()->Form()です。
+ * ソースは、asset/unit/form です。
+ * バリデーションは、validateユニットが担当します。
+
+## 2026-06-01 agent-facing documentation の分離
+
+ * 今後、私がエージェント向けドキュメントの作成を依頼する時は、使い方と現行仕様は分けて作成して下さい。
+ * 目的は、エージェントのコンテキストの使用量の節約です。
+ * エージェントが、Coreやユニットの使い方を参照した場合には、それらの使い方のドキュメントだけを参照し、コンテキストの使用量の節約する。
+ * ソースコードレベルのトラブルの解決や、リファクタリングには、詳細な現行仕様のドキュメントを参照する。
+ * よくあるトラブル用のドキュメントがあってもよいかもしれません。
+ * 上記をエージェント向けドキュメントに残す。
