@@ -6,6 +6,8 @@ In the ONEPIECE Framework, `D()` is one of the most important debugging tools us
 
 Its purpose is to display variables for debugging, but it is not just a plain `var_dump()`.
 
+For usage and package-owned technical details, see `asset/core/docs/d-function-usage.md` and `asset/core/docs/d-function-overview.md`.
+
 ## Main Characteristics
 
 The current design has several important characteristics.

@@ -6,6 +6,8 @@ ONEPIECE Framework において、`D()` は日常的な開発で非常によく�
 
 目的は変数をデバッグ用に表示することですが、単なる `var_dump()` ではありません。
 
+使い方と package-owned な技術詳細は、`asset/core/docs/d-function-usage.ja.md` と `asset/core/docs/d-function-overview.ja.md` を参照してください。
+
 ## 主な特徴
 
 現在の設計には、いくつか重要な特徴があります。
