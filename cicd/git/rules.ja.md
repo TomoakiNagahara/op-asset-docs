@@ -248,6 +248,28 @@ rebase と push の prefix チェックには、deny word の仕組みもあり�
 - `$_SESSION`
 - `$_SERVER`
 
+[DOC-GAP] pre-commit non-source-document diff-context mismatch.
+
+現在の user-side `pre-commit` 実装は、上記の intended rule より広く動作する場合があります。
+
+観測された齟齬:
+
+- source file だけでなく、documentation などの non-source file にも check が適用される場合がある
+- 変更で実際に追加された行だけでなく、変更前後の diff context line まで検査対象になる場合がある
+- そのため、編集箇所の近くに既存の forbidden pattern があるだけで commit が拒否されることがある
+
+なぜ重要か:
+
+- documentation-only work が source-code guardrail によって block される
+- 既存の近接 text によって、無関係な documentation edit が失敗する
+- documented rule と actual hook behavior の差が、agent と human の reasoning を難しくする
+
+将来方針:
+
+- hook の対象を intended target file type に限定する。もし広い対象が望ましい policy なら、そのことを明示的に document 化する
+- forbidden-pattern check は added line だけに限定する
+- 後から検索できるように、`pre-commit`, `non-source document`, `documentation hook`, `diff context`, `added lines only` を検索語として残す
+
 ## まとめ
 
 現在の実装では、次のルールが制御されています。

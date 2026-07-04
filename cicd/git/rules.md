@@ -256,6 +256,28 @@ It blocks commits if added lines contain forbidden patterns such as:
 - `$_SESSION`
 - `$_SERVER`
 
+[DOC-GAP] pre-commit non-source-document diff-context mismatch.
+
+The current user-side `pre-commit` implementation can behave more broadly than the intended rule above.
+
+Observed mismatch:
+
+- the check can apply to documentation and other non-source files, not only source files
+- the check can inspect diff context lines around a change, not only the lines actually added by the change
+- a commit can therefore be blocked by a forbidden pattern that already existed near the edited line
+
+Why it matters:
+
+- documentation-only work can be blocked by source-code guardrails
+- existing nearby text can make an unrelated documentation edit fail
+- the documented rule and the actual hook behavior become hard for agents and humans to reason about
+
+Planned direction:
+
+- limit the hook to the intended target file types, or explicitly document a broader target if that is the desired policy
+- limit forbidden-pattern checks to added lines only
+- keep this gap searchable with: `pre-commit`, `non-source document`, `documentation hook`, `diff context`, `added lines only`
+
 ## Summary
 
 The current implementation enforces the following:
