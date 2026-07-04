@@ -37,6 +37,25 @@ Only add the necessary pointer to `AGENTS.md`.
 - `CUSTOMIZATION_MAP.md` describes safe customization points and framework ownership boundaries; maintain it as `asset/docs/CUSTOMIZATION_MAP.md`.
 - `CODEX.md` is only for Codex CLI-specific workflow notes; maintain it as `asset/docs/CODEX.md`.
 
+## Documentation-Agent And Coding-Agent Documents
+
+Documentation-agent guidance and coding-agent guidance are separate responsibilities.
+
+Use documentation-agent documents for rules about:
+
+- where documents should live
+- how documents should be split, named, translated, and linked
+- how agent-facing documents should preserve source ownership and audience boundaries
+
+Use coding-agent documents for rules about:
+
+- how agents should inspect, edit, test, and explain code changes
+- repository customization boundaries for implementation work
+- coding conventions, runtime behavior, CI, Git hooks, and verification
+
+Do not bury documentation-authoring policy inside a coding-agent working guide.
+When a coding-agent guide needs documentation rules, link to this document instead.
+
 ## Language And Translations
 
 English documents are the canonical working documents for AI consumption.
@@ -105,6 +124,18 @@ Choose documentation paths from the code owner and responsibility boundary, not 
 Keep intended specification, current As-Is behavior, and curated gap indexes separated.
 Gap indexes should point to the As-Is owner rather than becoming the detailed owner themselves.
 
+Index documents must stay thin.
+
+For index documents such as `asset/docs/important-gaps.md`, do not add full current status, reasoning, planned direction, or source-derived detail when another document owns that information.
+
+An index entry should normally contain only:
+
+- a short title
+- a searchable tag or search terms
+- links to the owner documents
+
+Move the detailed explanation into the owner document, then point the index at it.
+
 ## Usage, Current Specification, And Troubleshooting
 
 When creating agent-facing documentation for CORE features, UNIT packages, MODULE packages, or other reusable framework behavior, separate ordinary usage from source-level current specification.
@@ -164,7 +195,62 @@ Choose the documentation location from the responsibility scope.
 
 If a framework-level document does not fit any of the categories above, store it directly under `asset/docs/`.
 
+### Do Not Centralize Everything In `asset/docs/`
+
+Do not put the entire body of ONEPIECE Framework knowledge directly under `asset/docs/`.
+
+`asset/docs/` is an entry and routing area for framework-level documentation, not a dumping ground for every detail.
+
+Split information by purpose, owner, and maintenance directory so humans can keep the documentation manageable.
+Human maintainability is a hard constraint: if a directory or file grows beyond what people can review, search, and update confidently, split it into responsible documents.
+
+This also reduces AI-agent thinking cost.
+Focused documents let agents read only the material needed for the current task instead of loading broad, unrelated framework knowledge.
+
+When adding documentation, first ask:
+
+- which package, unit, module, skeleton area, or workflow owns this information
+- whether the reader needs an overview, usage guide, current specification, troubleshooting note, or future design note
+- whether the information belongs in a purpose-specific directory instead of directly under `asset/docs/`
+
+### Core Documentation Placement
+
+For op-core topics, keep `asset/docs/core/` at the overview and discovery level.
+
+Use `asset/docs/core/` for:
+
+- high-level descriptions of what core areas and features exist
+- framework or skeleton-facing introductions to core concepts
+- links that route agents toward the responsible op-core package document
+
+Do not place detailed usage, current behavior, implementation notes, or source-derived specifications in `asset/docs/core/`.
+
+Place those details in `asset/core/docs/`, because that directory is the op-core package documentation that travels with `asset/core/`.
+
+Use `asset/core/docs/` for:
+
+- how to call or use a core function, class, trait, include, interface, testcase, or tutorial file
+- source-derived current behavior for a specific core feature
+- troubleshooting or refactoring notes that depend on op-core implementation
+- detailed package-owned documentation for op-core
+
+When an `asset/docs/core/` document needs details, link to the matching `asset/core/docs/` document instead of copying those details.
+
 Implementation details for one specific unit or module belong in that package's own `docs/` directory.
+
+## Path Notation
+
+Use `asset/`-rooted paths in committed documentation.
+
+Write paths such as:
+
+- `asset/core/docs`
+- `asset/docs/core`
+- `asset/unit/<unit>/docs`
+
+Do not write cross-directory relative paths such as `../../core/docs`.
+
+In ONEPIECE Framework repositories, the basic framework assets are installed under `asset/` by default. For documentation readers and agents, `asset/`-rooted paths are stable, easy to search for, and independent of the current document's directory.
 
 ## Dictation Notes
 
@@ -205,7 +291,7 @@ Use placeholders unless the proper noun itself is the subject of the document.
 
 Do not put local absolute file links such as `/System/Volumes/...` into repository documents.
 
-In repository documents, prefer plain repository-relative paths instead of clickable local-environment file links.
+In repository documents, use plain `asset/`-rooted paths for framework assets instead of clickable local-environment file links or cross-directory relative paths.
 
 ## Searchable Tags
 

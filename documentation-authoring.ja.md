@@ -37,6 +37,25 @@ agent は documentation を作成する前に、この document を参照して�
 - `CUSTOMIZATION_MAP.md` は safe customization point と framework ownership boundary を説明する。実体は `asset/docs/CUSTOMIZATION_MAP.md` として管理する。
 - `CODEX.md` は Codex CLI-specific workflow note だけを含む。実体は `asset/docs/CODEX.md` として管理する。
 
+## documentation-agent document と coding-agent document
+
+documentation-agent 向けの guidance と coding-agent 向けの guidance は、責任範囲を分けます。
+
+documentation-agent document には次の rule を置きます。
+
+- document をどこに置くか
+- document をどう分割し、命名し、翻訳し、link するか
+- agent-facing document で source ownership と audience boundary をどう保つか
+
+coding-agent document には次の rule を置きます。
+
+- agent が code change をどう調査、編集、test、説明するか
+- implementation work の repository customization boundary
+- coding convention、runtime behavior、CI、Git hook、verification
+
+documentation-authoring policy を coding-agent working guide の中に埋め込んではいけません。
+coding-agent guide が documentation rule を必要とする場合は、この document へ link します。
+
 ## 言語と翻訳
 
 English document は AI consumption の canonical working document とします。
@@ -105,6 +124,18 @@ documentation path は、最初にその話題が見つかった page ではな�
 intended specification、current As-Is behavior、curated gap index は分離して保ちます。
 gap index は詳細な owner にならず、As-Is owner を指します。
 
+index document は薄く保ちます。
+
+`asset/docs/important-gaps.md` のような index document には、別の document が owner である full current status、reasoning、planned direction、source-derived detail を追加してはいけません。
+
+index entry は通常、次だけに留めます。
+
+- 短い title
+- searchable tag または search terms
+- owner document への link
+
+詳細な説明は owner document へ移し、index はそこを指します。
+
 ## usage、current specification、troubleshooting
 
 CORE feature、UNIT package、MODULE package、その他の reusable framework behavior について agent-facing documentation を作成する場合、通常の使い方と source-level の current specification を分けます。
@@ -164,7 +195,62 @@ document の置き場所は責任範囲で決めます。
 
 framework-level document が上記のどれにも当てはまらない場合は、`asset/docs/` 直下に置きます。
 
+### `asset/docs/` にすべてを集約しない
+
+ONEPIECE Framework の膨大な知識を、すべて `asset/docs/` 直下に置いてはいけません。
+
+`asset/docs/` は framework-level documentation の入口と routing area であり、あらゆる詳細を置く dumping ground ではありません。
+
+人間が documentation を管理できるように、情報は目的、owner、maintenance directory ごとに分割します。
+human maintainability は強い制約です。directory や file が、人間が自信を持って review、search、update できる量を超える場合は、責任を持つ document へ分割します。
+
+これは AI agent の思考コスト削減にもつながります。
+focused document に分けることで、agent は現在の task に必要な material だけを読み、関係の薄い framework knowledge を広く読み込まずに済みます。
+
+documentation を追加する時は、まず次を確認します。
+
+- この情報はどの package、unit、module、skeleton area、workflow が owner か
+- reader が必要としているのは overview、usage guide、current specification、troubleshooting note、future design note のどれか
+- その情報は `asset/docs/` 直下ではなく、purpose-specific directory に置くべきではないか
+
+### core documentation の置き場所
+
+op-core に関する topic では、`asset/docs/core/` は overview と discovery の level に留めます。
+
+`asset/docs/core/` に置くもの:
+
+- core の area や feature に何があるかを示す high-level description
+- framework または skeleton-facing な core concept の紹介
+- agent を責任を持つ op-core package document へ案内する link
+
+詳細な使い方、current behavior、implementation note、source-derived specification は `asset/docs/core/` に置きません。
+
+それらの詳細は `asset/core/docs/` に置きます。この directory は `asset/core/` と一緒に移動する op-core package documentation だからです。
+
+`asset/core/docs/` に置くもの:
+
+- core function、class、trait、include、interface、testcase、tutorial file の呼び出し方や使い方
+- specific core feature の source-derived current behavior
+- op-core implementation に依存する troubleshooting または refactoring note
+- op-core の package-owned detailed documentation
+
+`asset/docs/core/` の document が詳細を必要とする場合は、その詳細をコピーせず、対応する `asset/core/docs/` document へ link します。
+
 特定 unit または module の implementation detail は、その package 自身の `docs/` directory に置きます。
+
+## path notation
+
+committed documentation では、`asset/` 起点の path を使います。
+
+次のように書きます。
+
+- `asset/core/docs`
+- `asset/docs/core`
+- `asset/unit/<unit>/docs`
+
+`../../core/docs` のような directory をまたぐ relative path は使いません。
+
+ONEPIECE Framework repository では、基本的な framework asset は原則として `asset/` 以下に install されます。そのため、documentation reader と agent にとって、`asset/` 起点の path は安定していて検索しやすく、document 自身の directory に依存しません。
 
 ## dictation note
 
@@ -205,7 +291,7 @@ public repository document では、実際の site name、hostname、subdomain�
 
 repository document に `/System/Volumes/...` のような local absolute file link を入れません。
 
-repository document では、clickable local-environment file link ではなく、plain repository-relative path を優先します。
+repository document では、clickable local-environment file link や directory をまたぐ relative path ではなく、plain な `asset/` 起点 path を使います。
 
 ## searchable tags
 
