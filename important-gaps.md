@@ -8,7 +8,16 @@ Its purpose is to collect high-priority or practically important mismatches in o
 
 This file is not a replacement for local `[DOC-GAP]`, `[DOC-FUTURE]`, or `[DOC-PRIORITY1]` notes.
 
-It is a curated summary for human review.
+It is an index for human review, not the detailed owner of each gap.
+
+Do not add full current status, reasoning, or planned direction here when another document owns the gap.
+For ordinary gap entries, keep only:
+
+- a short title
+- the searchable tag or search terms
+- the primary owner document references
+
+Put detailed current status, reasoning, and planned direction in the owner document.
 
 ## Highest Priority
 
@@ -103,6 +112,14 @@ Primary references:
 - `asset/unit/ci/docs/ci-flow.ja.md`
 - `asset/docs/cicd/hooks.md`
 - `asset/docs/cicd/hooks.ja.md`
+
+### Pre-commit non-source-document diff-context mismatch
+
+[DOC-GAP] Search terms: `pre-commit`, `non-source document`, `documentation hook`, `diff context`, `added lines only`.
+
+Primary reference:
+
+- `asset/docs/cicd/git/rules.md`
 
 ### WebPack module / unit automatically registers layout asset directories
 

@@ -8,7 +8,16 @@
 
 この file は、各所にある `[DOC-GAP]`, `[DOC-FUTURE]`, `[DOC-PRIORITY1]` を置き換えるものではありません。
 
-人間向けの curated summary です。
+これは人間が review するための index であり、各 gap の detailed owner ではありません。
+
+他の document が gap を所有している場合、この file に full current status、reasoning、planned direction を追加してはいけません。
+通常の gap entry は次だけに留めます。
+
+- 短い title
+- searchable tag または search terms
+- primary owner document references
+
+詳細な current status、reasoning、planned direction は owner document に置きます。
 
 ## 最優先課題
 
@@ -103,6 +112,14 @@ current status:
 - `asset/unit/ci/docs/ci-flow.ja.md`
 - `asset/docs/cicd/hooks.md`
 - `asset/docs/cicd/hooks.ja.md`
+
+### Pre-commit non-source-document diff-context mismatch
+
+[DOC-GAP] 検索語: `pre-commit`, `non-source document`, `documentation hook`, `diff context`, `added lines only`.
+
+主な参照先:
+
+- `asset/docs/cicd/git/rules.ja.md`
 
 ### WebPack module / unit が layout asset directory を自動登録している
 
